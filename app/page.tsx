@@ -1,113 +1,151 @@
 "use client"
 
 import { useState } from "react"
-import {
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Legend,
-  ResponsiveContainer,
-  Tooltip,
-  Bar,
-  ComposedChart,
-} from "recharts"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
+import { Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Tooltip, Bar, ComposedChart } from "recharts"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronsUpDown, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 import { cn } from "@/lib/utils"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-
-// REAL DATA
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { GRIMCO_ITEMS, PURCHASE_HISTORY } from "@/lib/grimco-data"
 
-const items = GRIMCO_ITEMS
+const items = GRIMCO_ITEMS.map((item) => {
+  // Assign colors based on item ID hash for consistent coloring
+  const colorPalette = [
+    "#3b82f6", // blue
+    "#8b5cf6", // purple
+    "#10b981", // green
+    "#f59e0b", // amber
+    "#ec4899", // pink
+    "#06b6d4", // cyan
+    "#f97316", // orange
+    "#6366f1", // indigo
+  ]
+  const hash = item.id.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  const color = colorPalette[hash % colorPalette.length]
 
-// Build table data from real history
+  return {
+    ...item,
+    color,
+  }
+})
+
+const generateItemData = (itemId: string) => {
+  const itemHistory = PURCHASE_HISTORY.find((h) => h.item === itemId)
+
+  if (itemHistory && itemHistory.data.length > 0) {
+    // Return real data with actual dates (includes day)
+    return itemHistory.data.map((entry) => ({
+      date: entry.date,
+      price: entry.price,
+      qty: entry.qty,
+    }))
+  }
+
+  // Fallback to dummy data if no history found
+  const seed = itemId.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  const basePrice = 100 + (seed % 1500)
+  const baseQty = 20 + (seed % 200)
+
+  return Array.from({ length: 12 }, (_, i) => {
+    const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i]
+    const priceVariation = Math.sin((seed + i) * 0.5) * 100
+    const qtyVariation = Math.cos((seed + i) * 0.3) * 30
+    return {
+      date: `${month} 2024`,
+      price: Math.round(basePrice + priceVariation),
+      qty: Math.round(Math.max(10, baseQty + qtyVariation)),
+    }
+  })
+}
+
 const generateTableData = () => {
-  return items.map((item) => {
-    const history = PURCHASE_HISTORY.find((h) => h.item === item.id)?.data || []
-    const totalQty = history.reduce((sum, d) => sum + d.qty, 0)
-    const totalSpent = history.reduce((sum, d) => sum + d.total, 0)
-    const avgPrice = totalQty > 0 ? totalSpent / totalQty : 0
-    const lastPurchased = history.length > 0 ? history[history.length - 1].date : "Never"
+  return items.map((item, index) => {
+    const itemHistory = PURCHASE_HISTORY.find((h) => h.item === item.id)
+
+    if (itemHistory && itemHistory.data.length > 0) {
+      const data = itemHistory.data
+      const totalQty = data.reduce((sum, d) => sum + d.qty, 0)
+      const totalSpent = data.reduce((sum, d) => sum + d.total, 0)
+      const avgPrice = totalSpent / totalQty
+      const lastPurchased = data[data.length - 1].date
+
+      return {
+        id: item.id,
+        number: index + 1,
+        item: item.label,
+        description: item.description,
+        totalSpent: Math.round(totalSpent),
+        totalQty,
+        avgPrice: Math.round(avgPrice * 100) / 100,
+        lastPurchased,
+      }
+    }
+
+    // Fallback to generated data if no history
+    const data = generateItemData(item.id)
+    const totalQty = data.reduce((sum, d) => sum + d.qty, 0)
+    const avgPrice = Math.round(data.reduce((sum, d) => sum + d.price, 0) / data.length)
+    const totalSpent = Math.round(data.reduce((sum, d) => sum + d.price * d.qty, 0))
+    const lastPurchased = data[data.length - 1].date
 
     return {
       id: item.id,
+      number: index + 1,
       item: item.label,
       description: item.description,
       totalSpent,
       totalQty,
       avgPrice,
-      lastPurchased: lastPurchased,
+      lastPurchased,
     }
   })
 }
 
-const tableData = generateTableData()
-
-type SortKey = "item" | "totalSpent" | "totalQty" | "avgPrice" | "lastPurchased"
-type SortConfig = { key: SortKey; direction: "asc" | "desc" } | null
+type SortConfig = {
+  key: string
+  direction: "asc" | "desc"
+} | null
 
 export default function PriceChartPage() {
-  const [selectedItem, setSelectedItem] = useState(items[0]?.id || "")
+  const [selectedItem, setSelectedItem] = useState(items[0].id)
   const [open, setOpen] = useState(false)
   const [sortConfig, setSortConfig] = useState<SortConfig>(null)
 
-  const chartData = PURCHASE_HISTORY.find((h) => h.item === selectedItem)?.data.map((d) => ({
-    date: d.date,
-    price: d.price,
-    qty: d.qty,
-  })) || []
-
+  const chartData = generateItemData(selectedItem)
   const currentItem = items.find((item) => item.id === selectedItem)
-  const selectedItemData = tableData.find((item) => item.id === selectedItem)
+  const selectedItemData = generateTableData().find((item) => item.id === selectedItem)
 
-  // Sorting logic
+  const tableData = generateTableData()
   const sortedTableData = [...tableData].sort((a, b) => {
     if (!sortConfig) return 0
-    const aVal = a[sortConfig.key]
-    const bVal = b[sortConfig.key]
 
-    if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1
-    if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1
+    const aValue = a[sortConfig.key as keyof typeof a]
+    const bValue = b[sortConfig.key as keyof typeof b]
+
+    if (aValue < bValue) {
+      return sortConfig.direction === "asc" ? -1 : 1
+    }
+    if (aValue > bValue) {
+      return sortConfig.direction === "asc" ? 1 : -1
+    }
     return 0
   })
 
-  const handleSort = (key: SortKey) => {
-    setSortConfig((prev) =>
-      prev?.key === key && prev.direction === "asc"
-        ? { key, direction: "desc" }
-        : { key, direction: "asc" }
-    )
+  const handleSort = (key: string) => {
+    let direction: "asc" | "desc" = "asc"
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc"
+    }
+    setSortConfig({ key, direction })
   }
 
-  const getSortIcon = (key: SortKey) => {
-    if (!sortConfig || sortConfig.key !== key)
+  const getSortIcon = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) {
       return <ArrowUpDown className="ml-1 h-3 w-3 opacity-40" />
+    }
     return sortConfig.direction === "asc" ? (
       <ArrowUp className="ml-1 h-3 w-3" />
     ) : (
@@ -122,9 +160,7 @@ export default function PriceChartPage() {
           <CardHeader className="space-y-3 pb-4 flex-shrink-0">
             <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
               <div className="space-y-1 flex-1">
-                <CardTitle className="text-2xl font-semibold tracking-tight">
-                  Grimco Item Dashboard
-                </CardTitle>
+                <CardTitle className="text-2xl font-semibold tracking-tight">Grimco Item Dashboard</CardTitle>
                 <CardDescription className="text-sm text-muted-foreground">
                   Track monthly price trends and order quantities
                 </CardDescription>
@@ -132,29 +168,23 @@ export default function PriceChartPage() {
               <div className="flex flex-col gap-3 md:flex-row md:items-start">
                 <div className="flex items-center gap-4 text-xs bg-muted/40 rounded-md px-3 py-2 border border-border/40">
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
-                      Total Spent
-                    </span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Total Spent</span>
                     <span className="font-semibold text-sm text-foreground">
-                      ${selectedItemData?.totalSpent.toLocaleString() || "0"}
+                      ${selectedItemData?.totalSpent.toLocaleString()}
                     </span>
                   </div>
                   <div className="h-6 w-px bg-border/60" />
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
-                      Total Qty
-                    </span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Total Qty</span>
                     <span className="font-semibold text-sm text-foreground">
-                      {selectedItemData?.totalQty.toLocaleString() || "0"}
+                      {selectedItemData?.totalQty.toLocaleString()}
                     </span>
                   </div>
                   <div className="h-6 w-px bg-border/60" />
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
-                      Avg Price
-                    </span>
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">Avg Price</span>
                     <span className="font-semibold text-sm text-foreground">
-                      ${selectedItemData?.avgPrice.toFixed(2) || "0.00"}
+                      ${selectedItemData?.avgPrice.toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -201,7 +231,7 @@ export default function PriceChartPage() {
             </div>
             <div className="pt-2 border-t border-border/40">
               <div className="flex items-center gap-2">
-                <div className="h-3 w-1 rounded-full bg-blue-500" />
+                <div className="h-3 w-1 rounded-full" style={{ backgroundColor: currentItem?.color }} />
                 <h3 className="text-base font-semibold text-foreground">{currentItem?.label}</h3>
                 <span className="text-sm text-muted-foreground">·</span>
                 <p className="text-sm text-muted-foreground">{currentItem?.description}</p>
@@ -218,6 +248,7 @@ export default function PriceChartPage() {
                   tickLine={{ stroke: "hsl(var(--border))" }}
                   axisLine={{ stroke: "hsl(var(--border))" }}
                 />
+
                 <YAxis
                   yAxisId="left"
                   label={{
@@ -231,6 +262,7 @@ export default function PriceChartPage() {
                   axisLine={{ stroke: "hsl(var(--border))" }}
                   tickFormatter={(value) => `$${value}`}
                 />
+
                 <YAxis
                   yAxisId="right"
                   orientation="right"
@@ -244,6 +276,7 @@ export default function PriceChartPage() {
                   tickLine={{ stroke: "hsl(var(--border))" }}
                   axisLine={{ stroke: "hsl(var(--border))" }}
                 />
+
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "hsl(var(--popover))",
@@ -251,28 +284,33 @@ export default function PriceChartPage() {
                     borderRadius: "var(--radius)",
                     padding: "8px 12px",
                   }}
-                  formatter={(value: number, name: string) =>
-                    name === "price" ? `$${value}` : `${value} units`
-                  }
+                  formatter={(value: number, name: string) => {
+                    if (name === "Price") {
+                      return [`$${value}`, name]
+                    }
+                    return [`${value} units`, name]
+                  }}
                   labelStyle={{ fontWeight: "500", fontSize: "12px", marginBottom: "4px" }}
                 />
                 <Legend wrapperStyle={{ paddingTop: "12px", fontSize: "12px" }} />
+
                 <Bar
                   yAxisId="right"
                   dataKey="qty"
-                  fill="#3b82f6"
+                  fill={currentItem?.color}
                   name="Quantity"
                   radius={[3, 3, 0, 0]}
                   opacity={0.5}
                 />
+
                 <Line
                   yAxisId="left"
                   type="monotone"
                   dataKey="price"
-                  stroke="#3b82f6"
+                  stroke={currentItem?.color}
                   strokeWidth={2.5}
                   name="Price"
-                  dot={{ fill: "#3b82f6", r: 4 }}
+                  dot={{ fill: currentItem?.color, r: 4 }}
                   activeDot={{ r: 6 }}
                 />
               </ComposedChart>
@@ -296,22 +334,37 @@ export default function PriceChartPage() {
               <Table>
                 <TableHeader className="sticky top-0 bg-muted/50 backdrop-blur-sm z-10">
                   <TableRow className="hover:bg-transparent border-border/40">
-                    <TableHead className="w-[50px] h-9 text-xs font-medium">#</TableHead>
+                    <TableHead
+                      className="w-[50px] h-9 text-xs font-medium cursor-pointer select-none hover:bg-muted/70 transition-colors"
+                      onClick={() => handleSort("number")}
+                    >
+                      <div className="flex items-center">#{getSortIcon("number")}</div>
+                    </TableHead>
                     <TableHead
                       className="min-w-[180px] h-9 text-xs font-medium cursor-pointer select-none hover:bg-muted/70 transition-colors"
                       onClick={() => handleSort("item")}
                     >
                       <div className="flex items-center">
-                        Item {getSortIcon("item")}
+                        Item
+                        {getSortIcon("item")}
                       </div>
                     </TableHead>
-                    <TableHead className="min-w-[220px] h-9 text-xs font-medium">Description</TableHead>
+                    <TableHead
+                      className="min-w-[220px] h-9 text-xs font-medium cursor-pointer select-none hover:bg-muted/70 transition-colors"
+                      onClick={() => handleSort("description")}
+                    >
+                      <div className="flex items-center">
+                        Description
+                        {getSortIcon("description")}
+                      </div>
+                    </TableHead>
                     <TableHead
                       className="text-right h-9 text-xs font-medium cursor-pointer select-none hover:bg-muted/70 transition-colors"
                       onClick={() => handleSort("totalSpent")}
                     >
                       <div className="flex items-center justify-end">
-                        Total Spent {getSortIcon("totalSpent")}
+                        Total Spent
+                        {getSortIcon("totalSpent")}
                       </div>
                     </TableHead>
                     <TableHead
@@ -319,7 +372,8 @@ export default function PriceChartPage() {
                       onClick={() => handleSort("totalQty")}
                     >
                       <div className="flex items-center justify-end">
-                        Total Qty {getSortIcon("totalQty")}
+                        Total Qty
+                        {getSortIcon("totalQty")}
                       </div>
                     </TableHead>
                     <TableHead
@@ -327,7 +381,8 @@ export default function PriceChartPage() {
                       onClick={() => handleSort("avgPrice")}
                     >
                       <div className="flex items-center justify-end">
-                        Avg Price {getSortIcon("avgPrice")}
+                        Avg Price
+                        {getSortIcon("avgPrice")}
                       </div>
                     </TableHead>
                     <TableHead
@@ -335,29 +390,30 @@ export default function PriceChartPage() {
                       onClick={() => handleSort("lastPurchased")}
                     >
                       <div className="flex items-center">
-                        Last Purchased {getSortIcon("lastPurchased")}
+                        Last Purchased
+                        {getSortIcon("lastPurchased")}
                       </div>
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sortedTableData.map((row, index) => (
+                  {sortedTableData.map((row) => (
                     <TableRow
                       key={row.id}
                       className={cn(
                         "cursor-pointer transition-colors border-border/40",
-                        selectedItem === row.id ? "bg-accent/50 hover:bg-accent/60" : "hover:bg-muted/50"
+                        selectedItem === row.id ? "bg-accent/50 hover:bg-accent/60" : "hover:bg-muted/50",
                       )}
                       onClick={() => setSelectedItem(row.id)}
                     >
-                      <TableCell className="font-medium text-xs py-2">{index + 1}</TableCell>
+                      <TableCell className="font-medium text-xs py-2">{row.number}</TableCell>
                       <TableCell className="font-medium text-xs py-2">{row.item}</TableCell>
                       <TableCell className="text-xs text-muted-foreground py-2">{row.description}</TableCell>
                       <TableCell className="text-right font-medium text-xs py-2">
                         ${row.totalSpent.toLocaleString()}
                       </TableCell>
                       <TableCell className="text-right text-xs py-2">{row.totalQty.toLocaleString()}</TableCell>
-                      <TableCell className="text-right text-xs py-2">${row.avgPrice.toFixed(2)}</TableCell>
+                      <TableCell className="text-right text-xs py-2">${row.avgPrice.toLocaleString()}</TableCell>
                       <TableCell className="text-xs py-2">{row.lastPurchased}</TableCell>
                     </TableRow>
                   ))}
