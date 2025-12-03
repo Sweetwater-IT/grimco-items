@@ -1,247 +1,338 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import {
-  Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, Tooltip, Bar, ComposedChart
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  Bar,
+  ComposedChart,
 } from "recharts"
 import {
-  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronsUpDown, ArrowUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table"
 
+// REAL DATA — THIS IS ALL YOU NEED TO CHANGE
 import { GRIMCO_ITEMS, PURCHASE_HISTORY } from "@/lib/grimco-data"
 
 const items = GRIMCO_ITEMS
 
-// Define table row type first (fixes the TypeScript error)
-type TableRowData = {
-  id: string
-  itemCode: string
-  description: string
-  totalSpent: number
-  totalQty: number
-  avgPrice: number
-  lastPurchased: string
-}
+// Build table data from real history
+const tableData = items.map((item) => {
+  const history = PURCHASE_HISTORY.find((h) => h.item === item.id)?.data || []
+  const totalQty = history.reduce((sum, d) => sum + d.qty, 0)
+  const totalSpent = history.reduce((sum, d) => sum + d.total, 0)
+  const avgPrice = totalQty > 0 ? totalSpent / totalQty : 0
+  const lastPurchased = history.length > 0 ? history[history.length - 1].date : "Never"
+
+  return {
+    id: item.id,
+    number: 0, // will be filled in sorted list
+    item: item.label,
+    description: item.description,
+    totalSpent,
+    totalQty,
+    avgPrice,
+    lastPurchased,
+  }
+})
 
 export default function PriceChartPage() {
   const [selectedItem, setSelectedItem] = useState(items[0]?.id || "")
   const [open, setOpen] = useState(false)
-  const [sortCol, setSortCol] = useState<keyof TableRowData | null>(null)
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc")
+  const [sortConfig, setSortConfig] = useState<{ key: keyof typeof tableData[0]; direction: "asc" | "desc" } | null>(null)
 
-  const currentItem = items.find(i => i.id === selectedItem)
-  const rawHistory = PURCHASE_HISTORY.find(h => h.item === selectedItem)?.data || []
-
-  const chartData = rawHistory.map(d => ({
+  const currentItem = items.find((item) => item.id === selectedItem)
+  const chartData = PURCHASE_HISTORY.find((h) => h.item === selectedItem)?.data.map((d) => ({
     date: d.date,
-    qty: d.qty,
     price: d.price,
-    totalSpend: d.total,
-  }))
+    qty: d.qty,
+  })) || []
 
-  const totalQty = rawHistory.reduce((s, d) => s + d.qty, 0)
-  const totalSpent = rawHistory.reduce((s, d) => s + d.total, 0)
-  const avgPrice = totalQty > 0 ? totalSpent / totalQty : 0
+  const selectedItemData = tableData.find((item) => item.id === selectedItem)
 
-  // Table data
-  const rawTableData: TableRowData[] = items.map(item => {
-    const h = PURCHASE_HISTORY.find(x => x.item === item.id)?.data || []
-    const qty = h.reduce((s, d) => s + d.qty, 0)
-    const spent = h.reduce((s, d) => s + d.total, 0)
-    const avg = qty > 0 ? spent / qty : 0
-    const last = h.length > 0 ? h[h.length - 1].date : "Never"
-    return {
-      id: item.id,
-      itemCode: item.label,
-      description: item.description,
-      totalSpent: Math.round(spent),
-      totalQty: qty,
-      avgPrice: Number(avg.toFixed(2)),
-      lastPurchased: last
-    }
+  // Sort table
+  const sortedTableData = [...tableData].sort((a, b) => {
+    if (!sortConfig) return 0
+    const aVal = a[sortConfig.key]
+    const bVal = b[sortConfig.key]
+    if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1
+    if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1
+    return 0
   })
 
-  const tableData = useMemo(() => {
-    if (!sortCol) return rawTableData
-    return [...rawTableData].sort((a, b) => {
-      const aVal = a[sortCol], bVal = b[sortCol]
-      if (typeof aVal === "string") return sortDir === "asc" ? aVal.localeCompare(bVal as string) : (bVal as string).localeCompare(aVal)
-      return sortDir === "asc" ? (aVal as number) - (bVal as number) : (bVal as number) - (aVal as number)
-    })
-  }, [sortCol, sortDir, rawTableData])
-
-  const handleSort = (col: keyof TableRowData) => {
-    if (sortCol === col) setSortDir(prev => prev === "asc" ? "desc" : "asc")
-    else { setSortCol(col); setSortDir("desc") }
+  const handleSort = (key: keyof typeof tableData[0]) => {
+    setSortConfig((prev) =>
+      prev?.key === key && prev.direction === "asc"
+        ? { key, direction: "desc" }
+        : { key, direction: "asc" }
+    )
   }
-
-  const SortIcon = ({ col }: { col: keyof TableRowData }) => (
-    <ArrowUpDown className={cn("ml-2 h-3 w-3", sortCol === col && sortDir === "asc" && "rotate-180")} />
-  )
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="w-full max-w-[1700px] mx-auto p-4 md:p-6 lg:p-8 space-y-6">
-
-        <Card className="border-border/40">
-          <CardHeader className="pb-4">
-            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-              <div>
-                <CardTitle className="text-2xl">Grimco Purchase Analyzer</CardTitle>
-                <CardDescription>Real daily history • Total spend, quantity & unit price</CardDescription>
+      <div className="w-full max-w-[1600px] mx-auto p-4 md:p-6 lg:p-8 space-y-4">
+        <Card className="border-border/40 h-[50vh] flex flex-col overflow-hidden">
+          <CardHeader className="space-y-3 pb-4 flex-shrink-0">
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div className="space-y-1 flex-1">
+                <CardTitle className="text-2xl font-semibold tracking-tight">
+                  Grimco Item Dashboard
+                </CardTitle>
+                <CardDescription className="text-sm text-muted-foreground">
+                  Track monthly price trends and order quantities
+                </CardDescription>
               </div>
-
-              <div className="flex items-center gap-6 text-sm bg-muted/50 rounded-lg px-5 py-3 border">
-                <div className="text-center">
-                  <div className="text-[10px] uppercase text-muted-foreground">Total Spent</div>
-                  <div className="font-bold text-lg">${totalSpent.toLocaleString()}</div>
-                </div>
-                <div className="h-10 w-px bg-border/60" />
-                <div className="text-center">
-                  <div className="text-[10px] uppercase text-muted-foreground">Total Qty</div>
-                  <div className="font-bold text-lg">{totalQty.toLocaleString()}</div>
-                </div>
-                <div className="h-10 w-px bg-border/60" />
-                <div className="text-center">
-                  <div className="text-[10px] uppercase text-muted-foreground">Avg Price</div>
-                  <div className="font-bold text-lg">${avgPrice.toFixed(2)}</div>
-                </div>
-              </div>
-
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-full md:w-96 justify-between">
-                    <span className="truncate text-left">
-                      {currentItem ? `${currentItem.label} – ${currentItem.description}` : "Select item..."}
+              <div className="flex flex-col gap-3 md:flex-row md:items-start">
+                <div className="flex items-center gap-4 text-xs bg-muted/40 rounded-md px-3 py-2 border border-border/40">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
+                      Total Spent
                     </span>
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-96 p-0">
-                  <Command>
-                    <CommandInput placeholder="Search Grimco item..." />
-                    <CommandList>
-                      <CommandEmpty>No item found.</CommandEmpty>
-                      <CommandGroup>
-                        {items.map(item => (
-                          <CommandItem key={item.id} value={`${item.label} ${item.description}`} onSelect={() => { setSelectedItem(item.id); setOpen(false) }}>
-                            <Check className={cn("mr-2 h-4 w-4", selectedItem === item.id ? "opacity-100" : "opacity-0")} />
-                            <div>
-                              <div className="font-medium">{item.label}</div>
-                              <div className="text-xs text-muted-foreground">{item.description}</div>
-                            </div>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            {currentItem && (
-              <div className="mt-4 pt-3 border-t">
-                <div className="flex items-center gap-3">
-                  <div className="h-3 w-1 rounded-full bg-blue-500" />
-                  <h3 className="text-lg font-semibold">{currentItem.label}</h3>
-                  <span className="text-muted-foreground">·</span>
-                  <p className="text-sm text-muted-foreground">{currentItem.description}</p>
+                    <span className="font-semibold text-sm text-foreground">
+                      ${selectedItemData?.totalSpent.toLocaleString() || "0"}
+                    </span>
+                  </div>
+                  <div className="h-6 w-px bg-border/60" />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
+                      Total Qty
+                    </span>
+                    <span className="font-semibold text-sm text-foreground">
+                      {selectedItemData?.totalQty.toLocaleString() || "0"}
+                    </span>
+                  </div>
+                  <div className="h-6 w-px bg-border/60" />
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
+                      Avg Price
+                    </span>
+                    <span className="font-semibold text-sm text-foreground">
+                      ${selectedItemData?.avgPrice.toFixed(2) || "0.00"}
+                    </span>
+                  </div>
                 </div>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="w-full md:w-[240px] justify-between font-normal bg-transparent"
+                    >
+                      <span className="truncate">
+                        {currentItem?.label || "Select item..."}
+                      </span>
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[280px] p-0" align="end">
+                    <Command>
+                      <CommandInput placeholder="Search item..." className="h-9" />
+                      <CommandList>
+                        <CommandEmpty>No item found.</CommandEmpty>
+                        <CommandGroup>
+                          {items.map((item) => (
+                            <CommandItem
+                              key={item.id}
+                              value={item.label}
+                              onSelect={() => {
+                                setSelectedItem(item.id)
+                                setOpen(false)
+                              }}
+                              className="text-sm"
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  selectedItem === item.id ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {item.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
-            )}
+            </div>
+            <div className="pt-2 border-t border-border/40">
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-1 rounded-full bg-blue-500" />
+                <h3 className="text-base font-semibold text-foreground">
+                  {currentItem?.label}
+                </h3>
+                <span className="text-sm text-muted-foreground">·</span>
+                <p className="text-sm text-muted-foreground">
+                  {currentItem?.description}
+                </p>
+              </div>
+            </div>
           </CardHeader>
-
-          <CardContent className="h-96">
-            {chartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={chartData} margin={{ top: 10, right: 40, left: 10, bottom: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.3} />
-                  <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-                  <YAxis yAxisId="left" tickFormatter={v => `$${v}`} />
-                  <YAxis yAxisId="right" orientation="right" />
-                  <Tooltip
-                    formatter={(v: number, name: string) => 
-                      name === "totalSpend" || name === "price" ? `$${v.toFixed(2)}` : `${v} units`
-                    }
-                    labelFormatter={label => `Date: ${label}`}
-                  />
-                  <Legend />
-                  <Bar yAxisId="right" dataKey="qty" fill="#10b981" name="Quantity" opacity={0.7} radius={[4, 4, 0, 0]} />
-                  <Line yAxisId="left" type="monotone" dataKey="totalSpend" stroke="#f59e0b" strokeWidth={3} name="Total Spent" dot={{ r: 5 }} />
-                  <Line yAxisId="left" type="monotone" dataKey="price" stroke="#3b82f6" strokeWidth={3} name="Unit Price" dot={{ r: 4 }} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="flex items-center justify-center h-full text-muted-foreground">
-                No purchase history for this item
-              </div>
-            )}
+          <CardContent className="pt-2 flex-1 min-h-0">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={chartData} margin={{ top: 10, right: 40, left: 0, bottom: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.3} />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                  tickLine={{ stroke: "hsl(var(--border))" }}
+                  axisLine={{ stroke: "hsl(var(--border))" }}
+                />
+                <YAxis
+                  yAxisId="left"
+                  label={{
+                    value: "Price (USD)",
+                    angle: -90,
+                    position: "insideLeft",
+                    style: { fill: "hsl(var(--muted-foreground))", fontSize: 11 },
+                  }}
+                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                  tickLine={{ stroke: "hsl(var(--border))" }}
+                  axisLine={{ stroke: "hsl(var(--border))" }}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  label={{
+                    value: "Quantity",
+                    angle: 90,
+                    position: "insideRight",
+                    style: { fill: "hsl(var(--muted-foreground))", fontSize: 11 },
+                  }}
+                  tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                  tickLine={{ stroke: "hsl(var(--border))" }}
+                  axisLine={{ stroke: "hsl(var(--border))" }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "var(--radius)",
+                    padding: "8px 12px",
+                  }}
+                  formatter={(value: number, name: string) =>
+                    name === "price" ? `$${value}` : `${value} units`
+                  }
+                  labelStyle={{ fontWeight: "500", fontSize: "12px", marginBottom: "4px" }}
+                />
+                <Legend wrapperStyle={{ paddingTop: "12px", fontSize: "12px" }} />
+                <Bar
+                  yAxisId="right"
+                  dataKey="qty"
+                  fill="#3b82f6"
+                  name="Quantity"
+                  radius={[3, 3, 0, 0]}
+                  opacity={0.5}
+                />
+                <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="price"
+                  stroke="#3b82f6"
+                  strokeWidth={2.5}
+                  name="Price"
+                  dot={{ fill: "#3b82f6", r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>All Grimco Items</CardTitle>
-            <CardDescription>{items.length} items • Click headers to sort</CardDescription>
+        <Card className="border-border/40 flex flex-col">
+          <CardHeader className="pb-3 flex-shrink-0">
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <CardTitle className="text-lg font-semibold">Item Inventory</CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">
+                  {items.length} items · Click row to view chart
+                </CardDescription>
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="max-h-screen overflow-auto">
+            <div className="border-y border-border/40 max-h-[600px] overflow-auto">
               <Table>
-                <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur">
-                  <TableRow>
-                    <TableHead className="w-16">#</TableHead>
-                    <TableHead className="cursor-pointer" onClick={() => handleSort("itemCode")}>
-                      Item Code {sortCol === "itemCode" && <SortIcon col="itemCode" />}
-                    </TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead className="text-right cursor-pointer" onClick={() => handleSort("totalSpent")}>
-                      Total Spent {sortCol === "totalSpent" && <SortIcon col="totalSpent" />}
-                    </TableHead>
-                    <TableHead className="text-right cursor-pointer" onClick={() => handleSort("totalQty")}>
-                      Total Qty {sortCol === "totalQty" && <SortIcon col="totalQty" />}
-                    </TableHead>
-                    <TableHead className="text-right cursor-pointer" onClick={() => handleSort("avgPrice")}>
-                      Avg Price {sortCol === "avgPrice" && <SortIcon col="avgPrice" />}
-                    </TableHead>
-                    <TableHead className="cursor-pointer" onClick={() => handleSort("lastPurchased")}>
-                      Last Purchase {sortCol === "lastPurchased" && <SortIcon col="lastPurchased" />}
-                    </TableHead>
+                <TableHeader className="sticky top-0 bg-muted/50 backdrop-blur-sm z-10">
+                  <TableRow className="hover:bg-transparent border-border/40">
+                    <TableHead className="w-[50px] h-9 text-xs font-medium">#</TableHead>
+                    <TableHead className="min-w-[180px] h-9 text-xs font-medium">Item</TableHead>
+                    <TableHead className="min-w-[220px] h-9 text-xs font-medium">Description</TableHead>
+                    <TableHead className="text-right h-9 text-xs font-medium">Total Spent</TableHead>
+                    <TableHead className="text-right h-9 text-xs font-medium">Total Qty</TableHead>
+                    <TableHead className="text-right h-9 text-xs font-medium">Avg Price</TableHead>
+                    <TableHead className="min-w-[110px] h-9 text-xs font-medium">Last Purchased</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {tableData.map((row, idx) => (
+                  {sortedTableData.map((row, index) => (
                     <TableRow
                       key={row.id}
-                      className={cn("cursor-pointer hover:bg-muted/50", selectedItem === row.id && "bg-accent")}
+                      className={cn(
+                        "cursor-pointer transition-colors border-border/40",
+                        selectedItem === row.id ? "bg-accent/50 hover:bg-accent/60" : "hover:bg-muted/50"
+                      )}
                       onClick={() => setSelectedItem(row.id)}
                     >
-                      <TableCell className="font-medium">{idx + 1}</TableCell>
-                      <TableCell className="font-medium">{row.itemCode}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground max-w-md truncate">{row.description}</TableCell>
-                      <TableCell className="text-right font-medium">${row.totalSpent.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">{row.totalQty.toLocaleString()}</TableCell>
-                      <TableCell className="text-right">${row.avgPrice.toFixed(2)}</TableCell>
-                      <TableCell className="text-xs">{row.lastPurchased}</TableCell>
+                      <TableCell className="font-medium text-xs py-2">{index + 1}</TableCell>
+                      <TableCell className="font-medium text-xs py-2">{row.item}</TableCell>
+                      <TableCell className="text-xs text-muted-foreground py-2">{row.description}</TableCell>
+                      <TableCell className="text-right font-medium text-xs py-2">
+                        ${row.totalSpent.toLocaleString()}
+                      </TableCell>
+                      <TableCell className="text-right text-xs py-2">{row.totalQty.toLocaleString()}</TableCell>
+                      <TableCell className="text-right text-xs py-2">${row.avgPrice.toFixed(2)}</TableCell>
+                      <TableCell className="text-xs py-2">{row.lastPurchased}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </div>
           </CardContent>
-          <CardFooter className="bg-muted/30 justify-between">
-            <div>Showing all {items.length} items</div>
-            <div className="font-bold">
-              Grand Total: ${tableData.reduce((s, r) => s + r.totalSpent, 0).toLocaleString()}
+          <CardFooter className="bg-muted/30 text-xs text-muted-foreground py-2.5 px-6 flex-shrink-0">
+            <div className="flex items-center justify-between w-full">
+              <div className="font-medium">
+                Showing <span className="text-foreground">{items.length}</span> items
+              </div>
+              <div className="text-right font-medium">
+                Total value:{" "}
+                <span className="text-foreground">
+                  ${tableData.reduce((sum, row) => sum + row.totalSpent, 0).toLocaleString()}
+                </span>
+              </div>
             </div>
           </CardFooter>
         </Card>
