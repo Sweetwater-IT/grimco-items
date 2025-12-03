@@ -53,7 +53,7 @@ const generateTableData = () => {
     const totalQty = history.reduce((sum, d) => sum + d.qty, 0)
     const totalSpent = history.reduce((sum, d) => sum + d.total, 0)
     const avgPrice = totalQty > 0 ? totalSpent / totalQty : 0
-    const lastPurchased =ail = history.length > 0 ? history[history.length - 1].date : "Never"
+    const lastPurchased = history.length > 0 ? history[history.length - 1].date : "Never"
 
     return {
       id: item.id,
