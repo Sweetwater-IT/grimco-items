@@ -22,16 +22,26 @@ import { GRIMCO_ITEMS, PURCHASE_HISTORY } from "@/lib/grimco-data"
 
 const items = GRIMCO_ITEMS
 
+// Define table row type first (fixes the TypeScript error)
+type TableRowData = {
+  id: string
+  itemCode: string
+  description: string
+  totalSpent: number
+  totalQty: number
+  avgPrice: number
+  lastPurchased: string
+}
+
 export default function PriceChartPage() {
   const [selectedItem, setSelectedItem] = useState(items[0]?.id || "")
   const [open, setOpen] = useState(false)
-  const [sortCol, setSortCol] = useState<keyof typeof tableData[0] | null>(null)
+  const [sortCol, setSortCol] = useState<keyof TableRowData | null>(null)
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc")
 
   const currentItem = items.find(i => i.id === selectedItem)
   const rawHistory = PURCHASE_HISTORY.find(h => h.item === selectedItem)?.data || []
 
-  // Chart data with total spend
   const chartData = rawHistory.map(d => ({
     date: d.date,
     qty: d.qty,
@@ -39,19 +49,26 @@ export default function PriceChartPage() {
     totalSpend: d.total,
   }))
 
-  // Summary stats for selected item
   const totalQty = rawHistory.reduce((s, d) => s + d.qty, 0)
   const totalSpent = rawHistory.reduce((s, d) => s + d.total, 0)
   const avgPrice = totalQty > 0 ? totalSpent / totalQty : 0
 
   // Table data
-  const rawTableData = items.map(item => {
+  const rawTableData: TableRowData[] = items.map(item => {
     const h = PURCHASE_HISTORY.find(x => x.item === item.id)?.data || []
     const qty = h.reduce((s, d) => s + d.qty, 0)
     const spent = h.reduce((s, d) => s + d.total, 0)
     const avg = qty > 0 ? spent / qty : 0
     const last = h.length > 0 ? h[h.length - 1].date : "Never"
-    return { id: item.id, itemCode: item.label, description: item.description, totalSpent: Math.round(spent), totalQty: qty, avgPrice: Number(avg.toFixed(2)), lastPurchased: last }
+    return {
+      id: item.id,
+      itemCode: item.label,
+      description: item.description,
+      totalSpent: Math.round(spent),
+      totalQty: qty,
+      avgPrice: Number(avg.toFixed(2)),
+      lastPurchased: last
+    }
   })
 
   const tableData = useMemo(() => {
@@ -61,14 +78,14 @@ export default function PriceChartPage() {
       if (typeof aVal === "string") return sortDir === "asc" ? aVal.localeCompare(bVal as string) : (bVal as string).localeCompare(aVal)
       return sortDir === "asc" ? (aVal as number) - (bVal as number) : (bVal as number) - (aVal as number)
     })
-  }, [sortCol, sortDir])
+  }, [sortCol, sortDir, rawTableData])
 
-  const handleSort = (col: keyof typeof rawTableData[0]) => {
+  const handleSort = (col: keyof TableRowData) => {
     if (sortCol === col) setSortDir(prev => prev === "asc" ? "desc" : "asc")
     else { setSortCol(col); setSortDir("desc") }
   }
 
-  const SortIcon = ({ col }: { col: keyof typeof rawTableData[0] }) => (
+  const SortIcon = ({ col }: { col: keyof TableRowData }) => (
     <ArrowUpDown className={cn("ml-2 h-3 w-3", sortCol === col && sortDir === "asc" && "rotate-180")} />
   )
 
@@ -76,7 +93,6 @@ export default function PriceChartPage() {
     <main className="min-h-screen bg-background">
       <div className="w-full max-w-[1700px] mx-auto p-4 md:p-6 lg:p-8 space-y-6">
 
-        {/* Chart + Summary Card */}
         <Card className="border-border/40">
           <CardHeader className="pb-4">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -85,7 +101,6 @@ export default function PriceChartPage() {
                 <CardDescription>Real daily history • Total spend, quantity & unit price</CardDescription>
               </div>
 
-              {/* Summary Stats Box */}
               <div className="flex items-center gap-6 text-sm bg-muted/50 rounded-lg px-5 py-3 border">
                 <div className="text-center">
                   <div className="text-[10px] uppercase text-muted-foreground">Total Spent</div>
@@ -103,7 +118,6 @@ export default function PriceChartPage() {
                 </div>
               </div>
 
-              {/* Item Selector */}
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full md:w-96 justify-between">
@@ -156,7 +170,9 @@ export default function PriceChartPage() {
                   <YAxis yAxisId="left" tickFormatter={v => `$${v}`} />
                   <YAxis yAxisId="right" orientation="right" />
                   <Tooltip
-                    formatter={(v: number, name: string) => name === "totalSpend" || name === "price" ? `$${v.toFixed(2)}` : `${v} units`}
+                    formatter={(v: number, name: string) => 
+                      name === "totalSpend" || name === "price" ? `$${v.toFixed(2)}` : `${v} units`
+                    }
                     labelFormatter={label => `Date: ${label}`}
                   />
                   <Legend />
@@ -173,7 +189,6 @@ export default function PriceChartPage() {
           </CardContent>
         </Card>
 
-        {/* Sortable Table */}
         <Card>
           <CardHeader>
             <CardTitle>All Grimco Items</CardTitle>
