@@ -144,13 +144,6 @@ export const GRIMCO_ITEMS: GrimcoItem[] = [
   { id: "N300985HWT18000", label: "N300985HWT18000", description: "30\"X 9\"-080-HIP-WT-1S-3/4-NH" },
   { id: "NO10", label: "NO10", description: "JUNIOR DRIVE CAP FOR 2LB CHANNEL POST" },
   { id: "OLUV-GLS54", label: "OLUV-GLS54", description: "54\"X150FT BRITELINE SHIELD GLOSS UV 3MIL" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3650PYHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3650PWHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-30" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-36" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3050PWHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS2450PWHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-48" },
   { id: "PP-1", label: "PP-1", description: "10FT X 2 3/8\" 16GA GALV ROUND PIPE POST" },
   { id: "RGT02BOX", label: "RGT02BOX", description: "2-1/4\"X100YD BRITELINE+ APPLICATION TAPE" },
   { id: "RGT12BOX", label: "RGT12BOX", description: "12\"X100YD BRITELINE+ APPLICATION TAPE" },
@@ -923,27 +916,6 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
   ],
   "OLUV-GLS54": [
     { date: "Dec 12 2024", qty: 1, price: 0.00, total: 0.00 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
-    { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
   ],
   "PP-1": [
     { date: "Sep 24 2025", qty: 2, price: 46.68, total: 93.36 },
