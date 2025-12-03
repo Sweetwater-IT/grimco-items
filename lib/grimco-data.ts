@@ -1,6 +1,6 @@
 // src/data/grimco-data.ts
-// Real Grimco data with EXACT DAILY purchases
-// Generated 2025-12-03 13:50 — 326 items
+// FINAL VERSION — uses arrays only (no duplicate key errors)
+// Generated 2025-12-03 14:00 — 324 items
 
 export type GrimcoItem = { id: string; label: string; description: string }
 
@@ -129,8 +129,6 @@ export const GRIMCO_ITEMS: GrimcoItem[] = [
   { id: "C4818TMOFO154AH", label: "C4818TMOFO154AH", description: "48\"X18\"-3MM-MAX-DGO-FO-1S-1 1/2-4-2P" },
   { id: "C4830TMHWT174AH", label: "C4830TMHWT174AH", description: "48\"X30\"-3MM-MAX-HIP-WT-1S-1 7/8-4-2P" },
   { id: "C6030TMHWT174AN", label: "C6030TMHWT174AN", description: "60\"X30\"-3MM-MAX-HIP-WT-1S-1 7/8-4-2P" },
-  { id: "CREDIT", label: "CREDIT", description: "B12UN85BARE53AI" },
-  { id: "CREDIT", label: "CREDIT", description: "EPSSCF170SE" },
   { id: "EPSSCF170SE", label: "EPSSCF170SE", description: "MRP EPSON F170 DESKTOP" },
   { id: "FASBA", label: "FASBA", description: "HARDWARE FOR BREAK AWAY POST" },
   { id: "HPCZ678A", label: "HPCZ678A", description: "HP 831 PRINTHEAD YELLOW/MAGENTA LATEX" },
@@ -146,12 +144,12 @@ export const GRIMCO_ITEMS: GrimcoItem[] = [
   { id: "N300985HWT18000", label: "N300985HWT18000", description: "30\"X 9\"-080-HIP-WT-1S-3/4-NH" },
   { id: "NO10", label: "NO10", description: "JUNIOR DRIVE CAP FOR 2LB CHANNEL POST" },
   { id: "OLUV-GLS54", label: "OLUV-GLS54", description: "54\"X150FT BRITELINE SHIELD GLOSS UV 3MIL" },
+  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS2450PWHI" },
   { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3650PYHI" },
   { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3650PWHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-30" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-36" },
   { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS3050PWHI" },
-  { id: "OVERCHARGE", label: "OVERCHARGE", description: "RS2450PWHI" },
+  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-36" },
+  { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-30" },
   { id: "OVERCHARGE", label: "OVERCHARGE", description: "1170-48" },
   { id: "PP-1", label: "PP-1", description: "10FT X 2 3/8\" 16GA GALV ROUND PIPE POST" },
   { id: "RGT02BOX", label: "RGT02BOX", description: "2-1/4\"X100YD BRITELINE+ APPLICATION TAPE" },
@@ -333,267 +331,270 @@ export const GRIMCO_ITEMS: GrimcoItem[] = [
   { id: "VCB1683", label: "VCB1683", description: "5/16\"X18X2.5 CORNER BOLT W/NUT (2\"-2.5\")" },
 ];
 
-export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; price: number; total: number}>> = {
-  "1170-24": [
+export type PurchaseEntry = { date: string; qty: number; price: number; total: number }
+export type ItemHistory = { item: string; data: PurchaseEntry[] }
+
+export const PURCHASE_HISTORY: ItemHistory[] = [
+  { item: "1170-24", data: [
     { date: "Apr 21 2025", qty: 6, price: 273.00, total: 1638.00 },
     { date: "Aug 05 2025", qty: 1, price: 273.00, total: 273.00 },
     { date: "Sep 24 2025", qty: 1, price: 273.00, total: 273.00 },
     { date: "Nov 06 2025", qty: 1, price: 273.00, total: 273.00 },
-  ],
-  "1170-30": [
+  ]},
+  { item: "1170-30", data: [
     { date: "Dec 07 2024", qty: 2, price: 375.00, total: 750.00 },
     { date: "Feb 11 2025", qty: 1, price: 375.00, total: 375.00 },
     { date: "Apr 21 2025", qty: 3, price: 341.25, total: 1023.75 },
     { date: "Aug 05 2025", qty: 1, price: 341.25, total: 341.25 },
     { date: "Sep 24 2025", qty: 1, price: 341.25, total: 341.25 },
     { date: "Nov 06 2025", qty: 1, price: 341.25, total: 341.25 },
-  ],
-  "1170-36": [
+  ]},
+  { item: "1170-36", data: [
     { date: "Dec 07 2024", qty: 2, price: 450.00, total: 900.00 },
     { date: "Feb 11 2025", qty: 1, price: 450.00, total: 450.00 },
     { date: "Mar 14 2025", qty: 1, price: 409.50, total: 409.50 },
     { date: "Apr 21 2025", qty: 3, price: 409.50, total: 1228.50 },
     { date: "Sep 24 2025", qty: 1, price: 409.50, total: 409.50 },
-  ],
-  "1170-48": [
+  ]},
+  { item: "1170-48", data: [
     { date: "Dec 07 2024", qty: 1, price: 600.00, total: 600.00 },
     { date: "Feb 11 2025", qty: 1, price: 600.00, total: 600.00 },
     { date: "Mar 14 2025", qty: 1, price: 546.00, total: 546.00 },
     { date: "Apr 01 2025", qty: 1, price: 546.00, total: 546.00 },
     { date: "Apr 21 2025", qty: 3, price: 546.00, total: 1638.00 },
     { date: "Sep 24 2025", qty: 1, price: 546.00, total: 546.00 },
-  ],
-  "983-21-1": [
+  ]},
+  { item: "983-21-1", data: [
     { date: "Mar 17 2025", qty: 3, price: 47.08, total: 141.24 },
-  ],
-  "983-21-2": [
+  ]},
+  { item: "983-21-2", data: [
     { date: "Mar 21 2025", qty: 4, price: 94.16, total: 376.64 },
-  ],
-  "AS60120080MILL": [
+  ]},
+  { item: "AS60120080MILL", data: [
     { date: "Sep 24 2025", qty: 4, price: 217.72, total: 870.88 },
-  ],
-  "B027285DYG16VAV": [
+  ]},
+  { item: "B027285DYG16VAV", data: [
     { date: "Jun 24 2025", qty: 2, price: 7.34, total: 14.69 },
-  ],
-  "B027285HRD16VAV": [
+  ]},
+  { item: "B027285HRD16VAV", data: [
     { date: "Jun 24 2025", qty: 16, price: 5.28, total: 84.48 },
-  ],
-  "B027285HYL16VAV": [
+  ]},
+  { item: "B027285HYL16VAV", data: [
     { date: "Jun 24 2025", qty: 536, price: 5.28, total: 2830.08 },
-  ],
-  "B037285DYG161AV": [
+  ]},
+  { item: "B037285DYG161AV", data: [
     { date: "May 29 2025", qty: 1, price: 7.81, total: 7.81 },
-  ],
-  "B037285HRD16VAV": [
+  ]},
+  { item: "B037285HRD16VAV", data: [
     { date: "May 21 2025", qty: 2, price: 5.28, total: 10.56 },
     { date: "May 29 2025", qty: 16, price: 6.98, total: 111.68 },
-  ],
-  "B037285HYL16VAV": [
+  ]},
+  { item: "B037285HYL16VAV", data: [
     { date: "May 21 2025", qty: 32, price: 5.28, total: 168.96 },
     { date: "May 29 2025", qty: 268, price: 5.28, total: 1415.04 },
-  ],
-  "B091285BARE51A1": [
+  ]},
+  { item: "B091285BARE51A1", data: [
     { date: "Sep 04 2025", qty: 1, price: 2.91, total: 2.91 },
     { date: "Sep 09 2025", qty: 49, price: 2.91, total: 142.59 },
     { date: "Oct 01 2025", qty: 50, price: 2.91, total: 145.50 },
-  ],
-  "B091585BARE53A1": [
+  ]},
+  { item: "B091585BARE53A1", data: [
     { date: "Jan 30 2025", qty: 50, price: 2.58, total: 129.00 },
-  ],
-  "B120685BARE51A3": [
+  ]},
+  { item: "B120685BARE51A3", data: [
     { date: "Apr 02 2025", qty: 50, price: 1.39, total: 69.50 },
     { date: "Nov 04 2025", qty: 50, price: 1.82, total: 91.00 },
-  ],
-  "B120985BARE51A3": [
+  ]},
+  { item: "B120985BARE51A3", data: [
     { date: "Dec 01 2025", qty: 100, price: 2.74, total: 274.00 },
-  ],
-  "B121885BARE51A1": [
+  ]},
+  { item: "B121885BARE51A1", data: [
     { date: "Dec 09 2024", qty: 150, price: 5.23, total: 784.50 },
     { date: "Dec 12 2024", qty: 100, price: 7.70, total: 770.00 },
     { date: "Apr 21 2025", qty: 250, price: 4.17, total: 1042.50 },
     { date: "May 29 2025", qty: 200, price: 4.17, total: 834.00 },
     { date: "Jul 24 2025", qty: 100, price: 5.24, total: 524.00 },
     { date: "Aug 27 2025", qty: 100, price: 5.18, total: 518.00 },
-  ],
-  "B121885BARE53A1": [
+  ]},
+  { item: "B121885BARE53A1", data: [
     { date: "Jan 30 2025", qty: 200, price: 4.17, total: 834.00 },
     { date: "Oct 29 2025", qty: 100, price: 5.48, total: 548.00 },
     { date: "Nov 18 2025", qty: 50, price: 5.48, total: 274.00 },
     { date: "Dec 01 2025", qty: 200, price: 5.48, total: 1096.00 },
-  ],
-  "B1218TMPWT251A1": [
+  ]},
+  { item: "B1218TMPWT251A1", data: [
     { date: "Jan 16 2025", qty: 4, price: 0.00, total: 0.00 },
-  ],
-  "B123685BARE53AR": [
+  ]},
+  { item: "B123685BARE53AR", data: [
     { date: "Jan 30 2025", qty: 75, price: 8.34, total: 625.50 },
-  ],
-  "B12SQ85BARE51A1": [
+  ]},
+  { item: "B12SQ85BARE51A1", data: [
     { date: "Dec 27 2024", qty: -20, price: 3.75, total: -75.00 },
-  ],
-  "B12UN85BARE53AI": [
+  ]},
+  { item: "B12UN85BARE53AI", data: [
     { date: "Jan 30 2025", qty: 50, price: 2.78, total: 139.00 },
     { date: "May 12 2025", qty: 100, price: 2.78, total: 278.00 },
     { date: "Oct 15 2025", qty: 50, price: 3.46, total: 173.00 },
-  ],
-  "B180685BARE51A3": [
+  ]},
+  { item: "B180685BARE51A3", data: [
     { date: "Dec 12 2024", qty: 50, price: 3.85, total: 192.50 },
     { date: "Jun 18 2025", qty: 50, price: 2.78, total: 139.00 },
-  ],
-  "B180685BARE53A3": [
+  ]},
+  { item: "B180685BARE53A3", data: [
     { date: "Jan 30 2025", qty: 25, price: 2.78, total: 69.50 },
-  ],
-  "B1809EXBARES000": [
+  ]},
+  { item: "B1809EXBARES000", data: [
     { date: "Jan 02 2025", qty: 20, price: 6.82, total: 136.40 },
     { date: "Jan 30 2025", qty: 75, price: 7.00, total: 525.00 },
-  ],
-  "B181585BARE51A1": [
+  ]},
+  { item: "B181585BARE51A1", data: [
     { date: "Aug 13 2025", qty: 13, price: 6.46, total: 83.98 },
-  ],
-  "B182485BARE53AA": [
+  ]},
+  { item: "B182485BARE53AA", data: [
     { date: "Jan 30 2025", qty: 100, price: 8.34, total: 834.00 },
     { date: "May 29 2025", qty: 12, price: 8.34, total: 100.08 },
     { date: "Jun 18 2025", qty: 50, price: 8.34, total: 417.00 },
     { date: "Aug 27 2025", qty: 50, price: 10.36, total: 518.00 },
     { date: "Sep 04 2025", qty: 1, price: 11.65, total: 11.65 },
     { date: "Sep 09 2025", qty: 88, price: 11.65, total: 1025.20 },
-  ],
-  "B18DI85HYL151A6": [
+  ]},
+  { item: "B18DI85HYL151A6", data: [
     { date: "Jun 18 2025", qty: 7, price: 11.59, total: 81.13 },
     { date: "Jul 16 2025", qty: 4, price: 12.61, total: 50.44 },
-  ],
-  "B18UN85BARE53AL": [
+  ]},
+  { item: "B18UN85BARE53AL", data: [
     { date: "Jan 30 2025", qty: 150, price: 6.25, total: 937.50 },
     { date: "May 29 2025", qty: 25, price: 6.25, total: 156.25 },
     { date: "Nov 06 2025", qty: 50, price: 8.19, total: 409.50 },
-  ],
-  "B211585BARE51A1": [
+  ]},
+  { item: "B211585BARE51A1", data: [
     { date: "Sep 04 2025", qty: 1, price: 8.50, total: 8.50 },
     { date: "Sep 09 2025", qty: 49, price: 8.50, total: 416.50 },
-  ],
-  "B2406EXBARES000": [
+  ]},
+  { item: "B2406EXBARES000", data: [
     { date: "Oct 29 2025", qty: 6, price: 6.90, total: 41.40 },
     { date: "Nov 06 2025", qty: 10, price: 6.90, total: 69.00 },
-  ],
-  "B240885BARE51A3": [
+  ]},
+  { item: "B240885BARE51A3", data: [
     { date: "Aug 13 2025", qty: 10, price: 4.59, total: 45.90 },
-  ],
-  "B2409EXBARES000": [
+  ]},
+  { item: "B2409EXBARES000", data: [
     { date: "Jan 02 2025", qty: 30, price: 8.88, total: 266.40 },
     { date: "Jan 30 2025", qty: 50, price: 9.00, total: 450.00 },
     { date: "Mar 14 2025", qty: 30, price: 9.00, total: 270.00 },
     { date: "May 16 2025", qty: 50, price: 9.00, total: 450.00 },
-  ],
-  "B2409EXHWT2S000": [
+  ]},
+  { item: "B2409EXHWT2S000", data: [
     { date: "May 29 2025", qty: 50, price: 10.71, total: 535.50 },
-  ],
-  "B241285BARE51A1": [
+  ]},
+  { item: "B241285BARE51A1", data: [
     { date: "Dec 09 2024", qty: 50, price: 10.24, total: 512.00 },
     { date: "Sep 04 2025", qty: 60, price: 7.77, total: 466.20 },
-  ],
-  "B241285BARE53AR": [
+  ]},
+  { item: "B241285BARE53AR", data: [
     { date: "Jan 30 2025", qty: 100, price: 5.56, total: 556.00 },
-  ],
-  "B241885BARE51A2": [
+  ]},
+  { item: "B241885BARE51A2", data: [
     { date: "Jun 25 2025", qty: 50, price: 8.34, total: 417.00 },
-  ],
-  "B243085BARE53AA": [
+  ]},
+  { item: "B243085BARE53AA", data: [
     { date: "Jan 30 2025", qty: 200, price: 13.90, total: 2780.00 },
     { date: "May 29 2025", qty: 30, price: 13.90, total: 417.00 },
     { date: "Jul 16 2025", qty: 100, price: 16.10, total: 1610.00 },
     { date: "Aug 27 2025", qty: 100, price: 17.26, total: 1726.00 },
     { date: "Oct 15 2025", qty: 100, price: 17.26, total: 1726.00 },
-  ],
-  "B243685BARE51A2": [
+  ]},
+  { item: "B243685BARE51A2", data: [
     { date: "Dec 31 2024", qty: 30, price: 20.95, total: 628.50 },
     { date: "Apr 09 2025", qty: 12, price: 17.52, total: 210.24 },
-  ],
-  "B243685BARE53AA": [
+  ]},
+  { item: "B243685BARE53AA", data: [
     { date: "Apr 21 2025", qty: 100, price: 16.68, total: 1668.00 },
-  ],
-  "B244885BARE53A2": [
+  ]},
+  { item: "B244885BARE53A2", data: [
     { date: "Jan 30 2025", qty: 30, price: 22.24, total: 667.20 },
-  ],
-  "B24CI85BAREC1A6": [
+  ]},
+  { item: "B24CI85BAREC1A6", data: [
     { date: "Apr 08 2025", qty: 12, price: 22.60, total: 271.20 },
-  ],
-  "B24SQ85BARE51A2": [
+  ]},
+  { item: "B24SQ85BARE51A2", data: [
     { date: "May 12 2025", qty: 100, price: 11.12, total: 1112.00 },
-  ],
-  "B24UN85BARE53AP": [
+  ]},
+  { item: "B24UN85BARE53AP", data: [
     { date: "Jan 15 2025", qty: 50, price: 11.12, total: 556.00 },
     { date: "Jan 30 2025", qty: 100, price: 11.12, total: 1112.00 },
     { date: "May 29 2025", qty: 12, price: 11.12, total: 133.44 },
     { date: "Jun 26 2025", qty: 100, price: 12.50, total: 1250.00 },
     { date: "Oct 03 2025", qty: 100, price: 15.25, total: 1525.00 },
-  ],
-  "B3009EXBARES000": [
+  ]},
+  { item: "B3009EXBARES000", data: [
     { date: "Jan 02 2025", qty: 25, price: 13.00, total: 325.00 },
     { date: "Jan 30 2025", qty: 40, price: 13.00, total: 520.00 },
     { date: "Mar 14 2025", qty: 30, price: 13.00, total: 390.00 },
     { date: "May 16 2025", qty: 50, price: 13.00, total: 650.00 },
     { date: "Oct 01 2025", qty: 20, price: 13.00, total: 260.00 },
-  ],
-  "B3009EXHWT2S000": [
+  ]},
+  { item: "B3009EXHWT2S000", data: [
     { date: "May 29 2025", qty: 50, price: 13.39, total: 669.50 },
-  ],
-  "B301585BARE51A1": [
+  ]},
+  { item: "B301585BARE51A1", data: [
     { date: "Jan 30 2025", qty: 20, price: 8.68, total: 173.60 },
     { date: "Sep 04 2025", qty: 50, price: 12.14, total: 607.00 },
-  ],
-  "B301885BARE51A1": [
+  ]},
+  { item: "B301885BARE51A1", data: [
     { date: "Dec 09 2024", qty: 30, price: 21.19, total: 635.70 },
-  ],
-  "B301885BARE51A2": [
+  ]},
+  { item: "B301885BARE51A2", data: [
     { date: "Jan 30 2025", qty: 50, price: 10.42, total: 521.00 },
-  ],
-  "B303685BARE73A2": [
+  ]},
+  { item: "B303685BARE73A2", data: [
     { date: "Jan 30 2025", qty: 150, price: 20.85, total: 3127.50 },
     { date: "Jun 26 2025", qty: 100, price: 24.00, total: 2400.00 },
     { date: "Oct 01 2025", qty: 100, price: 28.59, total: 2859.00 },
     { date: "Dec 01 2025", qty: 100, price: 27.37, total: 2737.00 },
-  ],
-  "B30PE85BARE71AU": [
+  ]},
+  { item: "B30PE85BARE71AU", data: [
     { date: "Dec 31 2024", qty: 30, price: 21.82, total: 654.60 },
     { date: "Jan 30 2025", qty: 25, price: 23.00, total: 575.00 },
     { date: "Apr 21 2025", qty: 15, price: 23.00, total: 345.00 },
-  ],
-  "B30UN85BARE73AJ": [
+  ]},
+  { item: "B30UN85BARE73AJ", data: [
     { date: "Jan 02 2025", qty: 100, price: 21.35, total: 2135.00 },
     { date: "Jan 30 2025", qty: 300, price: 17.37, total: 5211.00 },
     { date: "May 29 2025", qty: 50, price: 17.37, total: 868.50 },
     { date: "Aug 27 2025", qty: 180, price: 21.58, total: 3884.40 },
     { date: "Oct 15 2025", qty: 100, price: 21.58, total: 2158.00 },
-  ],
-  "B360985HWT28000": [
+  ]},
+  { item: "B360985HWT28000", data: [
     { date: "Feb 28 2025", qty: 22, price: 19.89, total: 437.58 },
-  ],
-  "B3609EXBARES000": [
+  ]},
+  { item: "B3609EXBARES000", data: [
     { date: "Jan 02 2025", qty: 25, price: 11.72, total: 293.00 },
     { date: "Jan 30 2025", qty: 50, price: 13.50, total: 675.00 },
     { date: "Aug 13 2025", qty: 25, price: 14.96, total: 374.00 },
-  ],
-  "B3609EXHWT2S000": [
+  ]},
+  { item: "B3609EXHWT2S000", data: [
     { date: "May 29 2025", qty: 50, price: 16.07, total: 803.50 },
-  ],
-  "B361285BARE51A1": [
+  ]},
+  { item: "B361285BARE51A1", data: [
     { date: "Dec 09 2024", qty: 50, price: 15.41, total: 770.50 },
     { date: "Aug 27 2025", qty: 50, price: 10.72, total: 536.00 },
     { date: "Nov 18 2025", qty: 50, price: 10.95, total: 547.50 },
-  ],
-  "B361885BARE51A2": [
+  ]},
+  { item: "B361885BARE51A2", data: [
     { date: "Jun 18 2025", qty: 25, price: 12.51, total: 312.75 },
-  ],
-  "B364885BARE44AE": [
+  ]},
+  { item: "B364885BARE44AE", data: [
     { date: "Oct 29 2025", qty: 20, price: 46.61, total: 932.20 },
-  ],
-  "B36DITMPWT141A9": [
+  ]},
+  { item: "B36DITMPWT141A9", data: [
     { date: "May 21 2025", qty: 30, price: 15.58, total: 467.40 },
-  ],
-  "B36PE85BARE41AP": [
+  ]},
+  { item: "B36PE85BARE41AP", data: [
     { date: "Dec 31 2024", qty: 30, price: 31.43, total: 942.90 },
     { date: "Apr 21 2025", qty: 15, price: 25.20, total: 378.00 },
-  ],
-  "B36UN85BARE43AG": [
+  ]},
+  { item: "B36UN85BARE43AG", data: [
     { date: "Dec 31 2024", qty: 100, price: 31.43, total: 3143.00 },
     { date: "Jan 24 2025", qty: 25, price: 25.02, total: 625.50 },
     { date: "Jan 30 2025", qty: 300, price: 25.02, total: 7506.00 },
@@ -602,85 +603,85 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Sep 04 2025", qty: 1, price: 34.96, total: 34.96 },
     { date: "Sep 09 2025", qty: 99, price: 34.96, total: 3461.04 },
     { date: "Nov 04 2025", qty: 100, price: 32.75, total: 3275.00 },
-  ],
-  "B420885BARE8000": [
+  ]},
+  { item: "B420885BARE8000", data: [
     { date: "May 06 2025", qty: 20, price: 7.65, total: 153.00 },
-  ],
-  "B4209EXBARES000": [
+  ]},
+  { item: "B4209EXBARES000", data: [
     { date: "Jan 30 2025", qty: 50, price: 15.75, total: 787.50 },
-  ],
-  "B4809EXBARES000": [
+  ]},
+  { item: "B4809EXBARES000", data: [
     { date: "Jan 30 2025", qty: 40, price: 18.00, total: 720.00 },
-  ],
-  "B481085DYG15000": [
+  ]},
+  { item: "B481085DYG15000", data: [
     { date: "Dec 03 2024", qty: 198, price: 24.70, total: 4890.60 },
     { date: "Jan 06 2025", qty: 198, price: 24.70, total: 4890.60 },
     { date: "Apr 18 2025", qty: 23, price: 24.70, total: 568.10 },
-  ],
-  "B482485BARE54AH": [
+  ]},
+  { item: "B482485BARE54AH", data: [
     { date: "Apr 02 2025", qty: 50, price: 22.24, total: 1112.00 },
-  ],
-  "B482485BARE74AH": [
+  ]},
+  { item: "B482485BARE74AH", data: [
     { date: "Apr 21 2025", qty: 20, price: 23.41, total: 468.20 },
-  ],
-  "B483085BARE73AA": [
+  ]},
+  { item: "B483085BARE73AA", data: [
     { date: "Jan 30 2025", qty: 30, price: 27.80, total: 834.00 },
-  ],
-  "B483085BARE74AH": [
+  ]},
+  { item: "B483085BARE74AH", data: [
     { date: "May 16 2025", qty: 20, price: 27.80, total: 556.00 },
     { date: "Aug 13 2025", qty: 25, price: 34.47, total: 861.75 },
     { date: "Oct 29 2025", qty: 20, price: 36.56, total: 731.20 },
-  ],
-  "B483685BARE44AD": [
+  ]},
+  { item: "B483685BARE44AD", data: [
     { date: "Jan 30 2025", qty: 30, price: 33.36, total: 1000.80 },
-  ],
-  "B486085BARE34AD": [
+  ]},
+  { item: "B486085BARE34AD", data: [
     { date: "Jan 30 2025", qty: 30, price: 55.60, total: 1668.00 },
-  ],
-  "B489685BARES000": [
+  ]},
+  { item: "B489685BARES000", data: [
     { date: "Jan 30 2025", qty: 65, price: 90.00, total: 5850.00 },
     { date: "Jul 16 2025", qty: 50, price: 103.06, total: 5153.00 },
     { date: "Sep 24 2025", qty: 50, price: 103.06, total: 5153.00 },
-  ],
-  "B48C085BARES000": [
+  ]},
+  { item: "B48C085BARES000", data: [
     { date: "Jul 16 2025", qty: 10, price: 128.82, total: 1288.20 },
-  ],
-  "B48UN85BARE33AV": [
+  ]},
+  { item: "B48UN85BARE33AV", data: [
     { date: "May 16 2025", qty: 50, price: 44.48, total: 2224.00 },
     { date: "Jun 26 2025", qty: 100, price: 48.00, total: 4800.00 },
     { date: "Nov 18 2025", qty: 50, price: 56.64, total: 2832.00 },
-  ],
-  "B48UN85BARE3AAV": [
+  ]},
+  { item: "B48UN85BARE3AAV", data: [
     { date: "Jan 30 2025", qty: 150, price: 44.48, total: 6672.00 },
-  ],
-  "B601085DYG15000": [
+  ]},
+  { item: "B601085DYG15000", data: [
     { date: "Apr 18 2025", qty: 4, price: 30.95, total: 123.80 },
-  ],
-  "B601285BARE51A1": [
+  ]},
+  { item: "B601285BARE51A1", data: [
     { date: "Jul 30 2025", qty: 20, price: 24.95, total: 499.00 },
-  ],
-  "B601885BARE44AH": [
+  ]},
+  { item: "B601885BARE44AH", data: [
     { date: "Jul 30 2025", qty: 10, price: 37.43, total: 374.30 },
-  ],
-  "B602485BARE54AN": [
+  ]},
+  { item: "B602485BARE54AN", data: [
     { date: "Mar 14 2025", qty: 10, price: 27.80, total: 278.00 },
     { date: "Apr 21 2025", qty: 20, price: 27.80, total: 556.00 },
-  ],
-  "B603085BARE74AN": [
+  ]},
+  { item: "B603085BARE74AN", data: [
     { date: "Jan 30 2025", qty: 50, price: 34.75, total: 1737.50 },
-  ],
-  "B721085DYG15000": [
+  ]},
+  { item: "B721085DYG15000", data: [
     { date: "Dec 03 2024", qty: 60, price: 37.05, total: 2223.00 },
     { date: "Jan 06 2025", qty: 60, price: 37.05, total: 2223.00 },
     { date: "Apr 18 2025", qty: 2, price: 37.05, total: 74.10 },
-  ],
-  "BLV02-30UP": [
+  ]},
+  { item: "BLV02-30UP", data: [
     { date: "Feb 28 2025", qty: 3, price: 127.46, total: 382.38 },
     { date: "Jun 11 2025", qty: 15, price: 127.46, total: 1911.90 },
     { date: "Sep 04 2025", qty: 10, price: 127.46, total: 1274.60 },
     { date: "Dec 01 2025", qty: 20, price: 127.46, total: 2549.20 },
-  ],
-  "BLV02-36": [
+  ]},
+  { item: "BLV02-36", data: [
     { date: "Dec 07 2024", qty: 2, price: 152.96, total: 305.92 },
     { date: "Dec 12 2024", qty: 1, price: 152.96, total: 152.96 },
     { date: "Jan 02 2025", qty: 3, price: 152.96, total: 458.88 },
@@ -691,8 +692,8 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Apr 21 2025", qty: 90, price: 152.96, total: 13766.40 },
     { date: "Jun 11 2025", qty: 10, price: 152.96, total: 1529.60 },
     { date: "Sep 04 2025", qty: 20, price: 152.96, total: 3059.20 },
-  ],
-  "BLV02-48": [
+  ]},
+  { item: "BLV02-48", data: [
     { date: "Dec 07 2024", qty: 1, price: 203.94, total: 203.94 },
     { date: "Jan 09 2025", qty: 2, price: 203.94, total: 407.88 },
     { date: "Jan 16 2025", qty: 2, price: 203.94, total: 407.88 },
@@ -701,176 +702,168 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "May 29 2025", qty: 10, price: 203.89, total: 2038.90 },
     { date: "Jun 11 2025", qty: 15, price: 203.89, total: 3058.35 },
     { date: "Oct 29 2025", qty: 10, price: 216.12, total: 2161.20 },
-  ],
-  "C091285HWT151A3": [
+  ]},
+  { item: "C091285HWT151A3", data: [
     { date: "Jun 10 2025", qty: 40, price: 3.96, total: 158.40 },
     { date: "Jun 23 2025", qty: 100, price: 10.00, total: 1000.00 },
-  ],
-  "C091585HWT151A3": [
+  ]},
+  { item: "C091585HWT151A3", data: [
     { date: "Mar 27 2025", qty: 500, price: 8.50, total: 4250.00 },
     { date: "Jun 19 2025", qty: 200, price: 10.00, total: 2000.00 },
     { date: "Aug 19 2025", qty: 250, price: 10.02, total: 2505.00 },
-  ],
-  "C121085HWT151A1": [
+  ]},
+  { item: "C121085HWT151A1", data: [
     { date: "Apr 03 2025", qty: 10, price: 3.83, total: 38.30 },
-  ],
-  "C121885HWT151A1": [
+  ]},
+  { item: "C121885HWT151A1", data: [
     { date: "Apr 02 2025", qty: 50, price: 8.00, total: 400.00 },
     { date: "Apr 03 2025", qty: 150, price: 8.00, total: 1200.00 },
     { date: "May 29 2025", qty: 2, price: 7.92, total: 15.84 },
     { date: "Jul 29 2025", qty: 200, price: 11.00, total: 2200.00 },
     { date: "Oct 03 2025", qty: 125, price: 9.76, total: 1220.00 },
-  ],
-  "C122485HWT151A2": [
+  ]},
+  { item: "C122485HWT151A2", data: [
     { date: "Jun 02 2025", qty: 600, price: 10.56, total: 6336.00 },
     { date: "Aug 06 2025", qty: 300, price: 11.76, total: 3528.00 },
-  ],
-  "C123685HYL151A2": [
+  ]},
+  { item: "C123685HYL151A2", data: [
     { date: "Dec 01 2025", qty: 24, price: 17.88, total: 429.12 },
-  ],
-  "C12SQ85HWT151A1": [
+  ]},
+  { item: "C12SQ85HWT151A1", data: [
     { date: "Apr 03 2025", qty: 20, price: 5.00, total: 100.00 },
     { date: "Dec 01 2025", qty: 100, price: 6.95, total: 695.00 },
-  ],
-  "C182485HWT151A2": [
+  ]},
+  { item: "C182485HWT151A2", data: [
     { date: "Apr 03 2025", qty: 5, price: 13.86, total: 69.30 },
     { date: "Aug 06 2025", qty: 50, price: 17.38, total: 869.00 },
-  ],
-  "C18SQ85HYL151A2": [
+  ]},
+  { item: "C18SQ85HYL151A2", data: [
     { date: "Sep 08 2025", qty: 75, price: 13.59, total: 1019.25 },
     { date: "Dec 01 2025", qty: 24, price: 13.41, total: 321.84 },
-  ],
-  "C211585OFO151A1": [
+  ]},
+  { item: "C211585OFO151A1", data: [
     { date: "May 21 2025", qty: 80, price: 15.00, total: 1200.00 },
     { date: "Sep 11 2025", qty: -80, price: 15.00, total: -1200.00 },
-  ],
-  "C2115TMDWT151A1": [
+  ]},
+  { item: "C2115TMDWT151A1", data: [
     { date: "Jun 18 2025", qty: 32, price: 13.00, total: 416.00 },
-  ],
-  "C241285HWT151A1": [
+  ]},
+  { item: "C241285HWT151A1", data: [
     { date: "Jul 16 2025", qty: 7, price: 16.00, total: 112.00 },
-  ],
-  "C2412TMHWT151A1": [
+  ]},
+  { item: "C2412TMHWT151A1", data: [
     { date: "Jun 18 2025", qty: 40, price: 5.50, total: 220.00 },
-  ],
-  "C2412TMOFO151A1": [
+  ]},
+  { item: "C2412TMOFO151A1", data: [
     { date: "May 21 2025", qty: 50, price: 10.12, total: 506.00 },
     { date: "Jun 18 2025", qty: 108, price: 10.65, total: 1150.20 },
-  ],
-  "C241885HWT151A2": [
+  ]},
+  { item: "C241885HWT151A2", data: [
     { date: "Apr 03 2025", qty: 10, price: 13.86, total: 138.60 },
     { date: "Dec 01 2025", qty: 6, price: 17.88, total: 107.28 },
-  ],
-  "C241885HYL151A2": [
+  ]},
+  { item: "C241885HYL151A2", data: [
     { date: "May 21 2025", qty: 4, price: 15.84, total: 63.36 },
     { date: "May 29 2025", qty: 4, price: 15.84, total: 63.36 },
     { date: "Jul 16 2025", qty: 2, price: 18.67, total: 37.34 },
-  ],
-  "C2418TMOFO151A2": [
+  ]},
+  { item: "C2418TMOFO151A2", data: [
     { date: "May 21 2025", qty: 10, price: 13.50, total: 135.00 },
     { date: "May 22 2025", qty: 10, price: 13.29, total: 132.90 },
     { date: "Jun 18 2025", qty: 8, price: 13.50, total: 108.00 },
-  ],
-  "C243085HWT151A2": [
+  ]},
+  { item: "C243085HWT151A2", data: [
     { date: "Jul 16 2025", qty: 2, price: 32.00, total: 64.00 },
-  ],
-  "C243685HWT151A2": [
+  ]},
+  { item: "C243685HWT151A2", data: [
     { date: "Jul 16 2025", qty: 3, price: 37.00, total: 111.00 },
-  ],
-  "C24SQ85HWT151A2": [
+  ]},
+  { item: "C24SQ85HWT151A2", data: [
     { date: "Dec 01 2025", qty: 8, price: 23.83, total: 190.64 },
-  ],
-  "C24SQTMHWT151A2": [
+  ]},
+  { item: "C24SQTMHWT151A2", data: [
     { date: "Jun 18 2025", qty: 40, price: 13.00, total: 520.00 },
-  ],
-  "C24SQTMOFO151A2": [
+  ]},
+  { item: "C24SQTMOFO151A2", data: [
     { date: "Jun 18 2025", qty: 2, price: 17.75, total: 35.50 },
-  ],
-  "C301585HYL151A1": [
+  ]},
+  { item: "C301585HYL151A1", data: [
     { date: "Mar 11 2025", qty: 50, price: 15.00, total: 750.00 },
     { date: "May 21 2025", qty: 2, price: 16.50, total: 33.00 },
     { date: "May 29 2025", qty: 4, price: 16.50, total: 66.00 },
-  ],
-  "C3015TMOFO151A1": [
+  ]},
+  { item: "C3015TMOFO151A1", data: [
     { date: "May 21 2025", qty: 30, price: 14.06, total: 421.80 },
-  ],
-  "C301885QFO151A1": [
+  ]},
+  { item: "C301885QFO151A1", data: [
     { date: "May 21 2025", qty: 10, price: 25.00, total: 250.00 },
     { date: "Sep 11 2025", qty: -15, price: 25.00, total: -375.00 },
-  ],
-  "C302485HWT151A2": [
+  ]},
+  { item: "C302485HWT151A2", data: [
     { date: "Jul 29 2025", qty: 1, price: 41.15, total: 41.15 },
-  ],
-  "C3024TMOFO151A2": [
+  ]},
+  { item: "C3024TMOFO151A2", data: [
     { date: "May 21 2025", qty: 200, price: 22.50, total: 4500.00 },
     { date: "May 22 2025", qty: 75, price: 22.15, total: 1661.25 },
     { date: "Jun 18 2025", qty: 44, price: 22.15, total: 974.60 },
     { date: "Sep 11 2025", qty: -14, price: 22.15, total: -310.10 },
-  ],
-  "C303685HWT171A2": [
+  ]},
+  { item: "C303685HWT171A2", data: [
     { date: "Apr 03 2025", qty: 10, price: 34.65, total: 346.50 },
-  ],
-  "C30DI85DYG171A8": [
+  ]},
+  { item: "C30DI85DYG171A8", data: [
     { date: "Dec 01 2025", qty: 8, price: 47.24, total: 377.92 },
-  ],
-  "C30DI85HYL171A8": [
+  ]},
+  { item: "C30DI85HYL171A8", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
     { date: "Jul 16 2025", qty: 2, price: 39.55, total: 79.10 },
     { date: "Sep 08 2025", qty: 95, price: 37.75, total: 3586.25 },
     { date: "Dec 01 2025", qty: 4, price: 37.24, total: 148.96 },
-  ],
-  "C30SQ85HWT171A2": [
+  ]},
+  { item: "C30SQ85HWT171A2", data: [
     { date: "Apr 03 2025", qty: 10, price: 28.88, total: 288.80 },
     { date: "Jun 18 2025", qty: 1, price: 35.00, total: 35.00 },
     { date: "Oct 03 2025", qty: 30, price: 35.23, total: 1056.90 },
-  ],
-  "C361885HWT151A2": [
+  ]},
+  { item: "C361885HWT151A2", data: [
     { date: "Mar 11 2025", qty: 5, price: 21.60, total: 108.00 },
-  ],
-  "C362485DYG154AB": [
+  ]},
+  { item: "C362485DYG154AB", data: [
     { date: "May 29 2025", qty: 2, price: 41.17, total: 82.34 },
-  ],
-  "C362485HYL154AB": [
+  ]},
+  { item: "C362485HYL154AB", data: [
     { date: "May 29 2025", qty: 2, price: 31.68, total: 63.36 },
-  ],
-  "C36DI85HYL141A9": [
+  ]},
+  { item: "C36DI85HYL141A9", data: [
     { date: "May 29 2025", qty: 18, price: 47.52, total: 855.36 },
     { date: "Jun 18 2025", qty: 1, price: 50.00, total: 50.00 },
-  ],
-  "C36DITMOFO141A9": [
+  ]},
+  { item: "C36DITMOFO141A9", data: [
     { date: "May 21 2025", qty: 140, price: 40.50, total: 5670.00 },
     { date: "May 22 2025", qty: 60, price: 39.87, total: 2392.20 },
     { date: "Jun 18 2025", qty: 42, price: 42.63, total: 1790.46 },
     { date: "Sep 11 2025", qty: -15, price: 42.63, total: -639.45 },
-  ],
-  "C4818TMOFO154AH": [
+  ]},
+  { item: "C4818TMOFO154AH", data: [
     { date: "May 21 2025", qty: 30, price: 27.00, total: 810.00 },
     { date: "May 22 2025", qty: 20, price: 26.58, total: 531.60 },
     { date: "Jun 18 2025", qty: 18, price: 28.42, total: 511.56 },
-  ],
-  "C4830TMHWT174AH": [
+  ]},
+  { item: "C4830TMHWT174AH", data: [
     { date: "May 21 2025", qty: 40, price: 35.05, total: 1402.00 },
     { date: "May 22 2025", qty: 10, price: 32.00, total: 320.00 },
     { date: "Jun 18 2025", qty: 13, price: 36.89, total: 479.57 },
-  ],
-  "C6030TMHWT174AN": [
+  ]},
+  { item: "C6030TMHWT174AN", data: [
     { date: "May 21 2025", qty: 25, price: 54.00, total: 1350.00 },
     { date: "May 22 2025", qty: 20, price: 40.00, total: 800.00 },
     { date: "Jun 18 2025", qty: 12, price: 56.84, total: 682.08 },
     { date: "Sep 11 2025", qty: -11, price: 56.84, total: -625.24 },
-  ],
-  "CREDIT": [
-    { date: "Dec 13 2024", qty: -230, price: 3.75, total: -862.50 },
-    { date: "Oct 03 2025", qty: -1, price: 350.00, total: -350.00 },
-  ],
-  "CREDIT": [
-    { date: "Dec 13 2024", qty: -230, price: 3.75, total: -862.50 },
-    { date: "Oct 03 2025", qty: -1, price: 350.00, total: -350.00 },
-  ],
-  "EPSSCF170SE": [
+  ]},
+  { item: "EPSSCF170SE", data: [
     { date: "Sep 19 2025", qty: 1, price: 395.00, total: 395.00 },
-  ],
-  "FASBA": [
+  ]},
+  { item: "FASBA", data: [
     { date: "Jan 28 2025", qty: 50, price: 3.50, total: 175.00 },
     { date: "Mar 14 2025", qty: 50, price: 3.50, total: 175.00 },
     { date: "Mar 20 2025", qty: 100, price: 3.50, total: 350.00 },
@@ -879,99 +872,99 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 11 2025", qty: 417, price: 3.50, total: 1459.50 },
     { date: "Oct 09 2025", qty: 300, price: 3.50, total: 1050.00 },
     { date: "Oct 21 2025", qty: 50, price: 3.50, total: 175.00 },
-  ],
-  "HPCZ678A": [
+  ]},
+  { item: "HPCZ678A", data: [
     { date: "Feb 26 2025", qty: 1, price: 151.60, total: 151.60 },
     { date: "Mar 25 2025", qty: 1, price: 151.60, total: 151.60 },
     { date: "Oct 15 2025", qty: 1, price: 175.53, total: 175.53 },
-  ],
-  "HPCZ679A": [
+  ]},
+  { item: "HPCZ679A", data: [
     { date: "Feb 26 2025", qty: 1, price: 151.60, total: 151.60 },
-  ],
-  "HPCZ681A": [
+  ]},
+  { item: "HPCZ681A", data: [
     { date: "Apr 09 2025", qty: 1, price: 184.68, total: 184.68 },
-  ],
-  "HPCZ682A": [
+  ]},
+  { item: "HPCZ682A", data: [
     { date: "Jan 08 2025", qty: 1, price: 170.17, total: 170.17 },
     { date: "Mar 18 2025", qty: 1, price: 170.00, total: 170.00 },
     { date: "May 15 2025", qty: 2, price: 192.00, total: 384.00 },
     { date: "Aug 27 2025", qty: 1, price: 192.00, total: 192.00 },
-  ],
-  "HPCZ683A": [
+  ]},
+  { item: "HPCZ683A", data: [
     { date: "Mar 14 2025", qty: 1, price: 170.00, total: 170.00 },
     { date: "May 23 2025", qty: 1, price: 192.00, total: 192.00 },
     { date: "Aug 05 2025", qty: 1, price: 192.00, total: 192.00 },
-  ],
-  "HPCZ684A": [
+  ]},
+  { item: "HPCZ684A", data: [
     { date: "Jan 24 2025", qty: 1, price: 170.17, total: 170.17 },
     { date: "Apr 28 2025", qty: 1, price: 170.00, total: 170.00 },
     { date: "May 23 2025", qty: 1, price: 192.00, total: 192.00 },
     { date: "Aug 05 2025", qty: 1, price: 192.00, total: 192.00 },
-  ],
-  "HPCZ685A": [
+  ]},
+  { item: "HPCZ685A", data: [
     { date: "Jan 22 2025", qty: 1, price: 170.17, total: 170.17 },
     { date: "Mar 14 2025", qty: 1, price: 170.00, total: 170.00 },
     { date: "Apr 15 2025", qty: 1, price: 170.00, total: 170.00 },
     { date: "May 23 2025", qty: 2, price: 192.00, total: 384.00 },
     { date: "Oct 03 2025", qty: 1, price: 192.00, total: 192.00 },
-  ],
-  "IM3203-30": [
+  ]},
+  { item: "IM3203-30", data: [
     { date: "May 01 2025", qty: 1, price: 122.44, total: 122.44 },
-  ],
-  "IM3205-54": [
+  ]},
+  { item: "IM3205-54", data: [
     { date: "Dec 12 2024", qty: 1, price: 0.00, total: 0.00 },
     { date: "May 01 2025", qty: 1, price: 209.69, total: 209.69 },
-  ],
-  "IM3205R-54": [
+  ]},
+  { item: "IM3205R-54", data: [
     { date: "Jul 16 2025", qty: 1, price: 0.00, total: 0.00 },
-  ],
-  "N300985HWT18000": [
+  ]},
+  { item: "N300985HWT18000", data: [
     { date: "Dec 12 2024", qty: 3, price: 0.00, total: 0.00 },
-  ],
-  "NO10": [
+  ]},
+  { item: "NO10", data: [
     { date: "Sep 29 2025", qty: 1, price: 118.92, total: 118.92 },
-  ],
-  "OLUV-GLS54": [
+  ]},
+  { item: "OLUV-GLS54", data: [
     { date: "Dec 12 2024", qty: 1, price: 0.00, total: 0.00 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "OVERCHARGE": [
+  ]},
+  { item: "OVERCHARGE", data: [
     { date: "Feb 14 2025", qty: -11, price: 92.57, total: -1118.25 },
-  ],
-  "PP-1": [
+  ]},
+  { item: "PP-1", data: [
     { date: "Sep 24 2025", qty: 2, price: 46.68, total: 93.36 },
     { date: "Oct 20 2025", qty: 10, price: 31.27, total: 312.70 },
-  ],
-  "RGT02BOX": [
+  ]},
+  { item: "RGT02BOX", data: [
     { date: "Jun 06 2025", qty: 3, price: 66.86, total: 200.58 },
-  ],
-  "RGT12BOX": [
+  ]},
+  { item: "RGT12BOX", data: [
     { date: "Jan 27 2025", qty: 4, price: 98.88, total: 395.52 },
     { date: "Apr 21 2025", qty: 4, price: 98.88, total: 395.52 },
     { date: "Jun 18 2025", qty: 40, price: 98.88, total: 3955.20 },
-  ],
-  "RGT16": [
+  ]},
+  { item: "RGT16", data: [
     { date: "Mar 13 2025", qty: 32, price: 65.92, total: 2109.44 },
     { date: "Oct 15 2025", qty: 6, price: 65.92, total: 395.52 },
-  ],
-  "RGT18": [
+  ]},
+  { item: "RGT18", data: [
     { date: "Dec 12 2024", qty: 2, price: 74.16, total: 148.32 },
     { date: "Jan 02 2025", qty: 4, price: 74.16, total: 296.64 },
     { date: "Jan 09 2025", qty: 4, price: 74.16, total: 296.64 },
@@ -980,8 +973,8 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Apr 21 2025", qty: 10, price: 81.54, total: 815.40 },
     { date: "Jun 18 2025", qty: 60, price: 81.54, total: 4892.40 },
     { date: "Oct 15 2025", qty: 18, price: 81.54, total: 1467.72 },
-  ],
-  "RGT24": [
+  ]},
+  { item: "RGT24", data: [
     { date: "Dec 07 2024", qty: 4, price: 98.88, total: 395.52 },
     { date: "Jan 16 2025", qty: 5, price: 98.88, total: 494.40 },
     { date: "Jan 30 2025", qty: 10, price: 98.88, total: 988.80 },
@@ -989,12 +982,12 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Apr 21 2025", qty: 20, price: 107.75, total: 2155.00 },
     { date: "Jun 18 2025", qty: 20, price: 107.75, total: 2155.00 },
     { date: "Oct 15 2025", qty: 16, price: 107.75, total: 1724.00 },
-  ],
-  "RS2450DG3FGY": [
+  ]},
+  { item: "RS2450DG3FGY", data: [
     { date: "Dec 07 2024", qty: 1, price: 1275.00, total: 1275.00 },
     { date: "Apr 21 2025", qty: 1, price: 800.00, total: 800.00 },
-  ],
-  "RS2450PWHI": [
+  ]},
+  { item: "RS2450PWHI", data: [
     { date: "Dec 05 2024", qty: 2, price: 480.00, total: 960.00 },
     { date: "Dec 12 2024", qty: 2, price: 480.00, total: 960.00 },
     { date: "Feb 11 2025", qty: 6, price: 480.00, total: 2880.00 },
@@ -1006,18 +999,18 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 27 2025", qty: 3, price: 381.00, total: 1143.00 },
     { date: "Oct 03 2025", qty: 4, price: 380.99, total: 1523.96 },
     { date: "Nov 06 2025", qty: 2, price: 381.00, total: 762.00 },
-  ],
-  "RS2450PYHI": [
+  ]},
+  { item: "RS2450PYHI", data: [
     { date: "Apr 21 2025", qty: 1, price: 381.00, total: 381.00 },
     { date: "Sep 04 2025", qty: 1, price: 381.00, total: 381.00 },
-  ],
-  "RS3050DG3FYG": [
+  ]},
+  { item: "RS3050DG3FYG", data: [
     { date: "Dec 07 2024", qty: 1, price: 1593.75, total: 1593.75 },
     { date: "Feb 28 2025", qty: 1, price: 1000.00, total: 1000.00 },
     { date: "Apr 21 2025", qty: 1, price: 1000.00, total: 1000.00 },
     { date: "Aug 13 2025", qty: 1, price: 961.20, total: 961.20 },
-  ],
-  "RS3050PWHI": [
+  ]},
+  { item: "RS3050PWHI", data: [
     { date: "Dec 05 2024", qty: 2, price: 600.00, total: 1200.00 },
     { date: "Dec 12 2024", qty: 2, price: 600.00, total: 1200.00 },
     { date: "Jan 09 2025", qty: 1, price: 600.00, total: 600.00 },
@@ -1035,16 +1028,16 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 27 2025", qty: 3, price: 476.25, total: 1428.75 },
     { date: "Oct 03 2025", qty: 2, price: 476.25, total: 952.50 },
     { date: "Oct 29 2025", qty: 4, price: 476.25, total: 1905.00 },
-  ],
-  "RS3050PYHI": [
+  ]},
+  { item: "RS3050PYHI", data: [
     { date: "Dec 12 2024", qty: 1, price: 600.00, total: 600.00 },
     { date: "Jan 27 2025", qty: 1, price: 600.00, total: 600.00 },
     { date: "Apr 21 2025", qty: 1, price: 476.25, total: 476.25 },
     { date: "May 29 2025", qty: 2, price: 476.25, total: 952.50 },
     { date: "Jul 16 2025", qty: 1, price: 476.25, total: 476.25 },
     { date: "Sep 04 2025", qty: 1, price: 476.25, total: 476.25 },
-  ],
-  "RS3650DG3FYG": [
+  ]},
+  { item: "RS3650DG3FYG", data: [
     { date: "Dec 07 2024", qty: 1, price: 1507.00, total: 1507.00 },
     { date: "Jan 16 2025", qty: 1, price: 1507.00, total: 1507.00 },
     { date: "Feb 28 2025", qty: 1, price: 1200.00, total: 1200.00 },
@@ -1052,17 +1045,17 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Mar 07 2025", qty: -1, price: 1200.00, total: -1200.00 },
     { date: "Apr 21 2025", qty: 2, price: 1200.00, total: 2400.00 },
     { date: "Jul 16 2025", qty: 1, price: 1200.00, total: 1200.00 },
-  ],
-  "RS3650PGHI": [
+  ]},
+  { item: "RS3650PGHI", data: [
     { date: "Mar 14 2025", qty: 1, price: 571.50, total: 571.50 },
-  ],
-  "RS3650POHI": [
+  ]},
+  { item: "RS3650POHI", data: [
     { date: "Jan 17 2025", qty: 1, price: 720.00, total: 720.00 },
-  ],
-  "RS3650PRHI": [
+  ]},
+  { item: "RS3650PRHI", data: [
     { date: "Aug 13 2025", qty: 1, price: 571.48, total: 571.48 },
-  ],
-  "RS3650PWHI": [
+  ]},
+  { item: "RS3650PWHI", data: [
     { date: "Dec 12 2024", qty: 1, price: 720.00, total: 720.00 },
     { date: "Jan 09 2025", qty: 1, price: 720.00, total: 720.00 },
     { date: "Jan 17 2025", qty: 1, price: 720.00, total: 720.00 },
@@ -1072,8 +1065,8 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Jun 26 2025", qty: 6, price: 571.50, total: 3429.00 },
     { date: "Oct 03 2025", qty: 2, price: 571.50, total: 1143.00 },
     { date: "Nov 06 2025", qty: 3, price: 571.50, total: 1714.50 },
-  ],
-  "RS3650PYHI": [
+  ]},
+  { item: "RS3650PYHI", data: [
     { date: "Dec 05 2024", qty: 1, price: 720.00, total: 720.00 },
     { date: "Jan 09 2025", qty: 2, price: 720.00, total: 1440.00 },
     { date: "Feb 11 2025", qty: 1, price: 720.00, total: 720.00 },
@@ -1082,15 +1075,15 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Jul 16 2025", qty: 2, price: 571.50, total: 1143.00 },
     { date: "Sep 04 2025", qty: 1, price: 571.50, total: 571.50 },
     { date: "Oct 15 2025", qty: 2, price: 571.50, total: 1143.00 },
-  ],
-  "RS4850DGO": [
+  ]},
+  { item: "RS4850DGO", data: [
     { date: "Apr 01 2025", qty: 1, price: 1328.21, total: 1328.21 },
     { date: "Aug 13 2025", qty: 1, price: 1328.21, total: 1328.21 },
-  ],
-  "RS4850POHI": [
+  ]},
+  { item: "RS4850POHI", data: [
     { date: "Aug 13 2025", qty: 1, price: 761.97, total: 761.97 },
-  ],
-  "RS4850PWHI": [
+  ]},
+  { item: "RS4850PWHI", data: [
     { date: "Feb 28 2025", qty: 2, price: 762.00, total: 1524.00 },
     { date: "Mar 06 2025", qty: 2, price: 762.00, total: 1524.00 },
     { date: "Apr 02 2025", qty: 2, price: 762.00, total: 1524.00 },
@@ -1098,22 +1091,22 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "May 29 2025", qty: 2, price: 762.00, total: 1524.00 },
     { date: "Aug 13 2025", qty: 2, price: 762.00, total: 1524.00 },
     { date: "Oct 03 2025", qty: 1, price: 761.97, total: 761.97 },
-  ],
-  "RS4850PYHI": [
+  ]},
+  { item: "RS4850PYHI", data: [
     { date: "Feb 28 2025", qty: 1, price: 762.00, total: 762.00 },
-  ],
-  "RS7310-18": [
+  ]},
+  { item: "RS7310-18", data: [
     { date: "Dec 11 2024", qty: 1, price: 289.69, total: 289.69 },
     { date: "Dec 12 2024", qty: 1, price: 289.69, total: 289.69 },
     { date: "Mar 12 2025", qty: 6, price: 289.69, total: 1738.14 },
-  ],
-  "RS7310-36": [
+  ]},
+  { item: "RS7310-36", data: [
     { date: "May 15 2025", qty: 3, price: 495.00, total: 1485.00 },
-  ],
-  "RS7314-30": [
+  ]},
+  { item: "RS7314-30", data: [
     { date: "Aug 18 2025", qty: 1, price: 429.69, total: 429.69 },
-  ],
-  "RS950PWHI": [
+  ]},
+  { item: "RS950PWHI", data: [
     { date: "Dec 12 2024", qty: 4, price: 180.00, total: 720.00 },
     { date: "Jan 27 2025", qty: 6, price: 180.00, total: 1080.00 },
     { date: "Feb 11 2025", qty: 2, price: 180.00, total: 360.00 },
@@ -1122,58 +1115,58 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Apr 02 2025", qty: 4, price: 180.00, total: 720.00 },
     { date: "Jun 18 2025", qty: 10, price: 180.00, total: 1800.00 },
     { date: "Oct 17 2025", qty: 4, price: 180.00, total: 720.00 },
-  ],
-  "S10-11243085HFD": [
+  ]},
+  { item: "S10-11243085HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 23.10, total: 231.00 },
-  ],
-  "S10-12303685HFD": [
+  ]},
+  { item: "S10-12303685HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 34.65, total: 346.50 },
-  ],
-  "SD9-2X24SQ85HFD": [
+  ]},
+  { item: "SD9-2X24SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 18.48, total: 92.40 },
     { date: "Jul 29 2025", qty: 1, price: 32.92, total: 32.92 },
-  ],
-  "SM1-4X24UR85HFD": [
+  ]},
+  { item: "SM1-4X24UR85HFD", data: [
     { date: "Jul 29 2025", qty: 2, price: 32.92, total: 65.84 },
-  ],
-  "SM3-2X241285HFD": [
+  ]},
+  { item: "SM3-2X241285HFD", data: [
     { date: "Jul 29 2025", qty: 1, price: 16.46, total: 16.46 },
-  ],
-  "SM3-3X241285HFD": [
+  ]},
+  { item: "SM3-3X241285HFD", data: [
     { date: "Jul 29 2025", qty: 1, price: 16.46, total: 16.46 },
-  ],
-  "SM3-4X241285HFD": [
+  ]},
+  { item: "SM3-4X241285HFD", data: [
     { date: "Jul 29 2025", qty: 1, price: 16.46, total: 16.46 },
-  ],
-  "SM5-1L211585HFD": [
+  ]},
+  { item: "SM5-1L211585HFD", data: [
     { date: "Jul 29 2025", qty: 1, price: 18.00, total: 18.00 },
-  ],
-  "SM5-1R211585HFD": [
+  ]},
+  { item: "SM5-1R211585HFD", data: [
     { date: "Jul 29 2025", qty: 1, price: 18.00, total: 18.00 },
-  ],
-  "SM5L1I211585HBK": [
+  ]},
+  { item: "SM5L1I211585HBK", data: [
     { date: "Jul 16 2025", qty: 1, price: 18.00, total: 18.00 },
-  ],
-  "SM6-2L211585HFD": [
+  ]},
+  { item: "SM6-2L211585HFD", data: [
     { date: "Jul 16 2025", qty: 1, price: 15.00, total: 15.00 },
-  ],
-  "SM6-3I211585HFD": [
+  ]},
+  { item: "SM6-3I211585HFD", data: [
     { date: "Jul 16 2025", qty: 1, price: 16.42, total: 16.42 },
-  ],
-  "SOM43R18DI85HFD": [
+  ]},
+  { item: "SOM43R18DI85HFD", data: [
     { date: "May 21 2025", qty: 2, price: 11.88, total: 23.76 },
-  ],
-  "SOM43Y18DI85HFD": [
+  ]},
+  { item: "SOM43Y18DI85HFD", data: [
     { date: "Mar 19 2025", qty: 21, price: 10.39, total: 218.19 },
     { date: "May 22 2025", qty: 8, price: 11.88, total: 95.04 },
     { date: "May 29 2025", qty: 16, price: 11.88, total: 190.08 },
     { date: "Dec 01 2025", qty: 4, price: 13.41, total: 53.64 },
-  ],
-  "SQ10-12": [
+  ]},
+  { item: "SQ10-12", data: [
     { date: "Feb 05 2025", qty: 1050, price: 30.49, total: 32014.50 },
     { date: "Mar 26 2025", qty: 850, price: 30.89, total: 26256.50 },
-  ],
-  "SQ102": [
+  ]},
+  { item: "SQ102", data: [
     { date: "Dec 12 2024", qty: 50, price: 25.33, total: 1266.50 },
     { date: "Dec 20 2024", qty: 100, price: 25.33, total: 2533.00 },
     { date: "Jan 02 2025", qty: 200, price: 25.33, total: 5066.00 },
@@ -1194,11 +1187,11 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 15 2025", qty: 100, price: 29.68, total: 2968.00 },
     { date: "Oct 17 2025", qty: 250, price: 29.68, total: 7420.00 },
     { date: "Nov 04 2025", qty: 75, price: 29.68, total: 2226.00 },
-  ],
-  "SQ12-12": [
+  ]},
+  { item: "SQ12-12", data: [
     { date: "Feb 05 2025", qty: 150, price: 36.59, total: 5488.50 },
-  ],
-  "SQ122": [
+  ]},
+  { item: "SQ122", data: [
     { date: "Dec 12 2024", qty: 25, price: 30.38, total: 759.50 },
     { date: "Dec 20 2024", qty: 25, price: 30.38, total: 759.50 },
     { date: "Jan 02 2025", qty: 100, price: 30.38, total: 3038.00 },
@@ -1215,8 +1208,8 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 15 2025", qty: 100, price: 35.62, total: 3562.00 },
     { date: "Oct 17 2025", qty: 75, price: 35.62, total: 2671.50 },
     { date: "Nov 04 2025", qty: 50, price: 35.62, total: 1781.00 },
-  ],
-  "SQ122": [
+  ]},
+  { item: "SQ122", data: [
     { date: "Dec 12 2024", qty: 25, price: 30.38, total: 759.50 },
     { date: "Dec 20 2024", qty: 25, price: 30.38, total: 759.50 },
     { date: "Jan 02 2025", qty: 100, price: 30.38, total: 3038.00 },
@@ -1233,18 +1226,18 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 15 2025", qty: 100, price: 35.62, total: 3562.00 },
     { date: "Oct 17 2025", qty: 75, price: 35.62, total: 2671.50 },
     { date: "Nov 04 2025", qty: 50, price: 35.62, total: 1781.00 },
-  ],
-  "SQ142": [
+  ]},
+  { item: "SQ142", data: [
     { date: "Dec 12 2024", qty: 50, price: 34.47, total: 1723.50 },
     { date: "Apr 22 2025", qty: 40, price: 36.01, total: 1440.40 },
     { date: "Jun 03 2025", qty: 75, price: 37.71, total: 2828.25 },
     { date: "Jun 25 2025", qty: -25, price: 34.47, total: -861.75 },
-  ],
-  "SQ18-2": [
+  ]},
+  { item: "SQ18-2", data: [
     { date: "Feb 05 2025", qty: 1200, price: 6.02, total: 7224.00 },
     { date: "Mar 26 2025", qty: 850, price: 6.18, total: 5253.00 },
-  ],
-  "SQ32": [
+  ]},
+  { item: "SQ32", data: [
     { date: "Dec 12 2024", qty: 319, price: 13.10, total: 4178.90 },
     { date: "Dec 20 2024", qty: 150, price: 13.10, total: 1965.00 },
     { date: "Jan 02 2025", qty: 800, price: 13.10, total: 10480.00 },
@@ -1261,12 +1254,12 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 15 2025", qty: 200, price: 14.50, total: 2900.00 },
     { date: "Oct 17 2025", qty: 500, price: 14.50, total: 7250.00 },
     { date: "Nov 04 2025", qty: 225, price: 13.66, total: 3073.50 },
-  ],
-  "SQ62-12": [
+  ]},
+  { item: "SQ62-12", data: [
     { date: "Feb 05 2025", qty: 1200, price: 21.26, total: 25512.00 },
     { date: "Mar 26 2025", qty: 850, price: 21.26, total: 18071.00 },
-  ],
-  "SQ82": [
+  ]},
+  { item: "SQ82", data: [
     { date: "Dec 20 2024", qty: 25, price: 20.29, total: 507.25 },
     { date: "Jan 02 2025", qty: 100, price: 20.29, total: 2029.00 },
     { date: "Mar 04 2025", qty: 100, price: 20.29, total: 2029.00 },
@@ -1277,27 +1270,27 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 08 2025", qty: 100, price: 25.00, total: 2500.00 },
     { date: "Aug 25 2025", qty: -1, price: 25.00, total: -25.00 },
     { date: "Nov 04 2025", qty: 100, price: 23.75, total: 2375.00 },
-  ],
-  "SR0078120685HGR": [
+  ]},
+  { item: "SR0078120685HGR", data: [
     { date: "Feb 11 2025", qty: 100, price: 2.49, total: 249.00 },
     { date: "Dec 01 2025", qty: 2, price: 2.98, total: 5.96 },
-  ],
-  "SR0079120685HGR": [
+  ]},
+  { item: "SR0079120685HGR", data: [
     { date: "Feb 11 2025", qty: 50, price: 2.49, total: 124.50 },
     { date: "Apr 03 2025", qty: 25, price: 2.31, total: 57.75 },
     { date: "Dec 01 2025", qty: 8, price: 2.98, total: 23.84 },
-  ],
-  "SR0180121885HGR": [
+  ]},
+  { item: "SR0180121885HGR", data: [
     { date: "Jan 30 2025", qty: 250, price: 8.00, total: 2000.00 },
     { date: "Nov 18 2025", qty: 50, price: 8.57, total: 428.50 },
-  ],
-  "SR1-1X18OC85HFD": [
+  ]},
+  { item: "SR1-1X18OC85HFD", data: [
     { date: "May 22 2025", qty: 1, price: 11.88, total: 11.88 },
-  ],
-  "SR1-1X24OC85HFD": [
+  ]},
+  { item: "SR1-1X24OC85HFD", data: [
     { date: "Mar 19 2025", qty: 12, price: 18.66, total: 223.92 },
-  ],
-  "SR1-1X30OC85HFD": [
+  ]},
+  { item: "SR1-1X30OC85HFD", data: [
     { date: "Jan 02 2025", qty: 150, price: 31.00, total: 4650.00 },
     { date: "Jan 30 2025", qty: 200, price: 27.00, total: 5400.00 },
     { date: "Feb 11 2025", qty: 100, price: 27.00, total: 2700.00 },
@@ -1308,8 +1301,8 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 27 2025", qty: 100, price: 33.03, total: 3303.00 },
     { date: "Oct 03 2025", qty: 200, price: 31.00, total: 6200.00 },
     { date: "Nov 18 2025", qty: 50, price: 33.47, total: 1673.50 },
-  ],
-  "SR1-1X36OC85HFD": [
+  ]},
+  { item: "SR1-1X36OC85HFD", data: [
     { date: "Jan 30 2025", qty: 25, price: 40.00, total: 1000.00 },
     { date: "Mar 19 2025", qty: 4, price: 41.57, total: 166.28 },
     { date: "Apr 21 2025", qty: 15, price: 40.00, total: 600.00 },
@@ -1318,149 +1311,149 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "May 29 2025", qty: 9, price: 47.52, total: 427.68 },
     { date: "Jul 24 2025", qty: 20, price: 46.29, total: 925.80 },
     { date: "Nov 18 2025", qty: 6, price: 51.41, total: 308.46 },
-  ],
-  "SR1-1X48OC85HFD": [
+  ]},
+  { item: "SR1-1X48OC85HFD", data: [
     { date: "Apr 21 2025", qty: 5, price: 69.12, total: 345.60 },
     { date: "May 29 2025", qty: 2, price: 84.48, total: 168.96 },
     { date: "Jun 02 2025", qty: 10, price: 84.48, total: 844.80 },
-  ],
-  "SR1-2X36TR85HFD": [
+  ]},
+  { item: "SR1-2X36TR85HFD", data: [
     { date: "Apr 21 2025", qty: 20, price: 21.00, total: 420.00 },
     { date: "May 22 2025", qty: 1, price: 23.76, total: 23.76 },
     { date: "Jun 18 2025", qty: 1, price: 22.11, total: 22.11 },
     { date: "Jul 16 2025", qty: 1, price: 24.76, total: 24.76 },
-  ],
-  "SR1-4P180685HFD": [
+  ]},
+  { item: "SR1-4P180685HFD", data: [
     { date: "Apr 03 2025", qty: 40, price: 3.47, total: 138.80 },
     { date: "May 29 2025", qty: 24, price: 3.96, total: 95.04 },
     { date: "Oct 03 2025", qty: 50, price: 4.53, total: 226.50 },
     { date: "Dec 01 2025", qty: 9, price: 4.47, total: 40.23 },
-  ],
-  "SR1-5L36SQ85HFD": [
+  ]},
+  { item: "SR1-5L36SQ85HFD", data: [
     { date: "Jul 16 2025", qty: 2, price: 66.10, total: 132.20 },
-  ],
-  "SR10-7243085HFD": [
+  ]},
+  { item: "SR10-7243085HFD", data: [
     { date: "Jun 18 2025", qty: 2, price: 26.00, total: 52.00 },
-  ],
-  "SR10B3091285HFD": [
+  ]},
+  { item: "SR10B3091285HFD", data: [
     { date: "May 29 2025", qty: 100, price: 3.96, total: 396.00 },
-  ],
-  "SR2-1X243085H25": [
+  ]},
+  { item: "SR2-1X243085H25", data: [
     { date: "May 29 2025", qty: 4, price: 25.32, total: 101.28 },
     { date: "Oct 03 2025", qty: 10, price: 26.42, total: 264.20 },
-  ],
-  "SR2-1X243085H30": [
+  ]},
+  { item: "SR2-1X243085H30", data: [
     { date: "Oct 03 2025", qty: 25, price: 26.42, total: 660.50 },
     { date: "Dec 01 2025", qty: 38, price: 29.79, total: 1132.02 },
-  ],
-  "SR2-1X243085H35": [
+  ]},
+  { item: "SR2-1X243085H35", data: [
     { date: "May 22 2025", qty: 1, price: 26.40, total: 26.40 },
     { date: "Jul 16 2025", qty: 2, price: 30.25, total: 60.50 },
     { date: "Oct 03 2025", qty: 25, price: 26.42, total: 660.50 },
     { date: "Dec 01 2025", qty: 12, price: 29.79, total: 357.48 },
-  ],
-  "SR2-1X243085H40": [
+  ]},
+  { item: "SR2-1X243085H40", data: [
     { date: "Jul 16 2025", qty: 4, price: 32.00, total: 128.00 },
     { date: "Dec 01 2025", qty: 18, price: 29.79, total: 536.22 },
-  ],
-  "SR2-1X243085H45": [
+  ]},
+  { item: "SR2-1X243085H45", data: [
     { date: "May 29 2025", qty: 1, price: 26.40, total: 26.40 },
     { date: "Jul 16 2025", qty: 1, price: 32.00, total: 32.00 },
-  ],
-  "SR2-1X243085HFD": [
+  ]},
+  { item: "SR2-1X243085HFD", data: [
     { date: "Jan 30 2025", qty: 100, price: 21.75, total: 2175.00 },
     { date: "Apr 21 2025", qty: 100, price: 21.75, total: 2175.00 },
     { date: "Jul 29 2025", qty: 5, price: 41.15, total: 205.75 },
     { date: "Aug 27 2025", qty: 50, price: 26.42, total: 1321.00 },
-  ],
-  "SR2-1X303685H35": [
+  ]},
+  { item: "SR2-1X303685H35", data: [
     { date: "May 29 2025", qty: 1, price: 39.60, total: 39.60 },
-  ],
-  "SR2-1X303685H45": [
+  ]},
+  { item: "SR2-1X303685H45", data: [
     { date: "Jun 18 2025", qty: 2, price: 42.00, total: 84.00 },
-  ],
-  "SR3-1X24SQ85HFD": [
+  ]},
+  { item: "SR3-1X24SQ85HFD", data: [
     { date: "Jan 30 2025", qty: 75, price: 21.00, total: 1575.00 },
     { date: "Feb 11 2025", qty: 10, price: 21.00, total: 210.00 },
     { date: "Apr 03 2025", qty: 15, price: 18.48, total: 277.20 },
-  ],
-  "SR3-1X30SQ85HFD": [
+  ]},
+  { item: "SR3-1X30SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 15, price: 28.88, total: 433.20 },
-  ],
-  "SR3-2X24SQ85HFD": [
+  ]},
+  { item: "SR3-2X24SQ85HFD", data: [
     { date: "Jan 30 2025", qty: 75, price: 21.00, total: 1575.00 },
     { date: "Feb 11 2025", qty: 10, price: 21.00, total: 210.00 },
     { date: "Apr 03 2025", qty: 15, price: 18.48, total: 277.20 },
     { date: "Jun 18 2025", qty: 1, price: 23.27, total: 23.27 },
-  ],
-  "SR3-2X30SQ85HFD": [
+  ]},
+  { item: "SR3-2X30SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 15, price: 28.88, total: 433.20 },
-  ],
-  "SR3-2X36SQ85HFD": [
+  ]},
+  { item: "SR3-2X36SQ85HFD", data: [
     { date: "Mar 19 2025", qty: 17, price: 41.57, total: 706.69 },
-  ],
-  "SR3-4X24SQ85HFD": [
+  ]},
+  { item: "SR3-4X24SQ85HFD", data: [
     { date: "Jun 18 2025", qty: 1, price: 22.00, total: 22.00 },
-  ],
-  "SR3-4X36SQ85HFD": [
+  ]},
+  { item: "SR3-4X36SQ85HFD", data: [
     { date: "Jun 18 2025", qty: 1, price: 50.00, total: 50.00 },
-  ],
-  "SR3-5A303685HFD": [
+  ]},
+  { item: "SR3-5A303685HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 34.65, total: 346.50 },
-  ],
-  "SR3-5L303685HFD": [
+  ]},
+  { item: "SR3-5L303685HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 34.65, total: 346.50 },
-  ],
-  "SR3-7L30SQ85HFD": [
+  ]},
+  { item: "SR3-7L30SQ85HFD", data: [
     { date: "May 29 2025", qty: 1, price: 33.00, total: 33.00 },
-  ],
-  "SR3-7L36SQ85HFD": [
+  ]},
+  { item: "SR3-7L36SQ85HFD", data: [
     { date: "Mar 19 2025", qty: 8, price: 41.57, total: 332.56 },
     { date: "May 29 2025", qty: 1, price: 47.52, total: 47.52 },
     { date: "Jun 18 2025", qty: 1, price: 50.00, total: 50.00 },
-  ],
-  "SR3-7L36SQ85HFD": [
+  ]},
+  { item: "SR3-7L36SQ85HFD", data: [
     { date: "Mar 19 2025", qty: 8, price: 41.57, total: 332.56 },
     { date: "May 29 2025", qty: 1, price: 47.52, total: 47.52 },
     { date: "Jun 18 2025", qty: 1, price: 50.00, total: 50.00 },
-  ],
-  "SR3-7R30SQ85HFD": [
+  ]},
+  { item: "SR3-7R30SQ85HFD", data: [
     { date: "Jul 16 2025", qty: 8, price: 39.55, total: 316.40 },
-  ],
-  "SR3-7R36SQ85HFD": [
+  ]},
+  { item: "SR3-7R36SQ85HFD", data: [
     { date: "May 29 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "Jun 18 2025", qty: 1, price: 50.00, total: 50.00 },
-  ],
-  "SR3-8X483085HFD": [
+  ]},
+  { item: "SR3-8X483085HFD", data: [
     { date: "May 29 2025", qty: 1, price: 52.80, total: 52.80 },
-  ],
-  "SR3-9A303685HFD": [
+  ]},
+  { item: "SR3-9A303685HFD", data: [
     { date: "Mar 11 2025", qty: 5, price: 36.00, total: 180.00 },
-  ],
-  "SR3-9B243685HFD": [
+  ]},
+  { item: "SR3-9B243685HFD", data: [
     { date: "Mar 19 2025", qty: 4, price: 27.72, total: 110.88 },
     { date: "Jun 18 2025", qty: 4, price: 29.00, total: 116.00 },
-  ],
-  "SR3-9C241285HFD": [
+  ]},
+  { item: "SR3-9C241285HFD", data: [
     { date: "Mar 19 2025", qty: 2, price: 9.24, total: 18.48 },
     { date: "Jun 18 2025", qty: 2, price: 12.00, total: 24.00 },
     { date: "Dec 01 2025", qty: 3, price: 11.92, total: 35.76 },
-  ],
-  "SR3-9D241285HFD": [
+  ]},
+  { item: "SR3-9D241285HFD", data: [
     { date: "Mar 19 2025", qty: 2, price: 9.24, total: 18.48 },
     { date: "Jun 18 2025", qty: 2, price: 12.00, total: 24.00 },
     { date: "Jul 16 2025", qty: 1, price: 13.44, total: 13.44 },
     { date: "Dec 01 2025", qty: 3, price: 11.92, total: 35.76 },
-  ],
-  "SR4-7X243085HFD": [
+  ]},
+  { item: "SR4-7X243085HFD", data: [
     { date: "Mar 19 2025", qty: 21, price: 23.10, total: 485.10 },
     { date: "Jun 18 2025", qty: 11, price: 26.00, total: 286.00 },
     { date: "Jul 16 2025", qty: 4, price: 29.12, total: 116.48 },
-  ],
-  "SR5-1A362485HFD": [
+  ]},
+  { item: "SR5-1A362485HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 27.72, total: 277.20 },
-  ],
-  "SR5-1X30SQ85HFD": [
+  ]},
+  { item: "SR5-1X30SQ85HFD", data: [
     { date: "Jan 07 2025", qty: 100, price: 28.00, total: 2800.00 },
     { date: "Jan 30 2025", qty: 50, price: 30.00, total: 1500.00 },
     { date: "Apr 03 2025", qty: 21, price: 28.88, total: 606.48 },
@@ -1468,38 +1461,38 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "May 29 2025", qty: 2, price: 33.00, total: 66.00 },
     { date: "Jun 26 2025", qty: 200, price: 30.00, total: 6000.00 },
     { date: "Jul 16 2025", qty: 1, price: 37.23, total: 37.23 },
-  ],
-  "SR5-1X36SQ85HFD": [
+  ]},
+  { item: "SR5-1X36SQ85HFD", data: [
     { date: "Mar 19 2025", qty: 5, price: 41.57, total: 207.85 },
     { date: "Apr 03 2025", qty: 5, price: 41.58, total: 207.90 },
     { date: "May 22 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "Jun 18 2025", qty: 1, price: 48.00, total: 48.00 },
-  ],
-  "SR5-2A24SQ85HFD": [
+  ]},
+  { item: "SR5-2A24SQ85HFD", data: [
     { date: "Feb 11 2025", qty: 10, price: 23.03, total: 230.30 },
-  ],
-  "SR5-2X24SQ85HFD": [
+  ]},
+  { item: "SR5-2X24SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 20, price: 18.48, total: 369.60 },
     { date: "Dec 01 2025", qty: 6, price: 23.83, total: 142.98 },
-  ],
-  "SR5-2X30SQ85HFD": [
+  ]},
+  { item: "SR5-2X30SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 20, price: 28.88, total: 577.60 },
-  ],
-  "SR5-3X24SQ85HFD": [
+  ]},
+  { item: "SR5-3X24SQ85HFD", data: [
     { date: "May 22 2025", qty: 2, price: 21.12, total: 42.24 },
-  ],
-  "SR6-1L361285HFD": [
+  ]},
+  { item: "SR6-1L361285HFD", data: [
     { date: "Jan 07 2025", qty: 50, price: 14.00, total: 700.00 },
     { date: "Jan 30 2025", qty: 75, price: 14.00, total: 1050.00 },
     { date: "May 29 2025", qty: 2, price: 15.84, total: 31.68 },
     { date: "Jul 16 2025", qty: 4, price: 17.38, total: 69.52 },
     { date: "Aug 06 2025", qty: 25, price: 17.38, total: 434.50 },
     { date: "Oct 15 2025", qty: 50, price: 17.38, total: 869.00 },
-  ],
-  "SR6-1L541885HFD": [
+  ]},
+  { item: "SR6-1L541885HFD", data: [
     { date: "May 29 2025", qty: 2, price: 35.64, total: 71.28 },
-  ],
-  "SR6-1R361285HFD": [
+  ]},
+  { item: "SR6-1R361285HFD", data: [
     { date: "Jan 07 2025", qty: 50, price: 14.00, total: 700.00 },
     { date: "Jan 30 2025", qty: 75, price: 14.00, total: 1050.00 },
     { date: "Mar 19 2025", qty: 5, price: 13.86, total: 69.30 },
@@ -1507,216 +1500,216 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Jul 16 2025", qty: 9, price: 17.38, total: 156.42 },
     { date: "Aug 06 2025", qty: 25, price: 17.38, total: 434.50 },
     { date: "Oct 15 2025", qty: 50, price: 17.38, total: 869.00 },
-  ],
-  "SR6-1R541885HFD": [
+  ]},
+  { item: "SR6-1R541885HFD", data: [
     { date: "May 29 2025", qty: 2, price: 35.64, total: 71.28 },
-  ],
-  "SR6-2L243085HFD": [
+  ]},
+  { item: "SR6-2L243085HFD", data: [
     { date: "Mar 19 2025", qty: 2, price: 23.10, total: 46.20 },
-  ],
-  "SR6-4X302485HFD": [
+  ]},
+  { item: "SR6-4X302485HFD", data: [
     { date: "Jul 16 2025", qty: 3, price: 40.00, total: 120.00 },
-  ],
-  "SR6-7X182485HFD": [
+  ]},
+  { item: "SR6-7X182485HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 13.86, total: 69.30 },
-  ],
-  "SR7-6X121885HFD": [
+  ]},
+  { item: "SR7-6X121885HFD", data: [
     { date: "Apr 03 2025", qty: 20, price: 6.93, total: 138.60 },
-  ],
-  "SR7-8A120685HFD": [
+  ]},
+  { item: "SR7-8A120685HFD", data: [
     { date: "Jan 30 2025", qty: 100, price: 3.00, total: 300.00 },
     { date: "May 29 2025", qty: 200, price: 2.64, total: 528.00 },
     { date: "Oct 15 2025", qty: 50, price: 2.90, total: 145.00 },
-  ],
-  "SR7-8F121885HPA": [
+  ]},
+  { item: "SR7-8F121885HPA", data: [
     { date: "Jan 30 2025", qty: 250, price: 8.00, total: 2000.00 },
     { date: "Feb 11 2025", qty: 25, price: 7.68, total: 192.00 },
     { date: "Apr 03 2025", qty: 20, price: 8.00, total: 160.00 },
     { date: "May 29 2025", qty: 200, price: 7.92, total: 1584.00 },
     { date: "Oct 15 2025", qty: 50, price: 8.69, total: 434.50 },
     { date: "Nov 18 2025", qty: 50, price: 8.57, total: 428.50 },
-  ],
-  "SR7-8N121885HGR": [
+  ]},
+  { item: "SR7-8N121885HGR", data: [
     { date: "Feb 11 2025", qty: 100, price: 7.48, total: 748.00 },
     { date: "Apr 03 2025", qty: 50, price: 8.00, total: 400.00 },
     { date: "May 29 2025", qty: 200, price: 7.92, total: 1584.00 },
     { date: "Oct 15 2025", qty: 50, price: 8.69, total: 434.50 },
-  ],
-  "SR7201120685HFD": [
+  ]},
+  { item: "SR7201120685HFD", data: [
     { date: "Apr 03 2025", qty: 10, price: 2.31, total: 23.10 },
-  ],
-  "SR8-3X12SQ85HFD": [
+  ]},
+  { item: "SR8-3X12SQ85HFD", data: [
     { date: "May 22 2025", qty: 2, price: 5.28, total: 10.56 },
     { date: "Jun 18 2025", qty: 1, price: 5.25, total: 5.25 },
-  ],
-  "SR9-3S18SQ85HFD": [
+  ]},
+  { item: "SR9-3S18SQ85HFD", data: [
     { date: "Mar 19 2025", qty: 33, price: 10.39, total: 342.87 },
-  ],
-  "SR9-3X18SQ85HFD": [
+  ]},
+  { item: "SR9-3X18SQ85HFD", data: [
     { date: "Jan 30 2025", qty: 75, price: 10.50, total: 787.50 },
     { date: "Mar 19 2025", qty: 323, price: 10.39, total: 3355.97 },
     { date: "Apr 03 2025", qty: 5, price: 10.39, total: 51.95 },
     { date: "Jul 16 2025", qty: 4, price: 13.03, total: 52.12 },
-  ],
-  "SR9-3X24SQ85HFD": [
+  ]},
+  { item: "SR9-3X24SQ85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 18.48, total: 92.40 },
     { date: "May 29 2025", qty: 6, price: 21.12, total: 126.72 },
-  ],
-  "SS3-1S30DI85FFD": [
+  ]},
+  { item: "SS3-1S30DI85FFD", data: [
     { date: "Dec 01 2025", qty: 1, price: 47.24, total: 47.24 },
-  ],
-  "SS3-1S36DI85FFD": [
+  ]},
+  { item: "SS3-1S36DI85FFD", data: [
     { date: "May 29 2025", qty: 1, price: 61.75, total: 61.75 },
-  ],
-  "SS3-1S36DI85LFD": [
+  ]},
+  { item: "SS3-1S36DI85LFD", data: [
     { date: "May 21 2025", qty: 1, price: 61.92, total: 61.92 },
-  ],
-  "SS5-2X243085HFD": [
+  ]},
+  { item: "SS5-2X243085HFD", data: [
     { date: "Jul 16 2025", qty: 1, price: 27.00, total: 27.00 },
-  ],
-  "SW1-1L30DI85HFD": [
+  ]},
+  { item: "SW1-1L30DI85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
-  ],
-  "SW1-1L36DI85HFD": [
+  ]},
+  { item: "SW1-1L36DI85HFD", data: [
     { date: "May 29 2025", qty: 2, price: 47.52, total: 95.04 },
-  ],
-  "SW1-1R30DI85HFD": [
+  ]},
+  { item: "SW1-1R30DI85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
     { date: "May 22 2025", qty: 1, price: 33.00, total: 33.00 },
-  ],
-  "SW1-1R36DI85HFD": [
+  ]},
+  { item: "SW1-1R36DI85HFD", data: [
     { date: "May 29 2025", qty: 2, price: 47.52, total: 95.04 },
-  ],
-  "SW1-2L30DI85HFD": [
+  ]},
+  { item: "SW1-2L30DI85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
     { date: "Jul 16 2025", qty: 2, price: 39.55, total: 79.10 },
     { date: "Dec 01 2025", qty: 1, price: 37.24, total: 37.24 },
-  ],
-  "SW1-2L36DI85HFD": [
+  ]},
+  { item: "SW1-2L36DI85HFD", data: [
     { date: "May 21 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "May 29 2025", qty: 11, price: 47.52, total: 522.72 },
-  ],
-  "SW1-2R30DI85HFD": [
+  ]},
+  { item: "SW1-2R30DI85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
     { date: "Jul 16 2025", qty: 2, price: 39.55, total: 79.10 },
     { date: "Dec 01 2025", qty: 7, price: 37.24, total: 260.68 },
-  ],
-  "SW1-2R36DI85HFD": [
+  ]},
+  { item: "SW1-2R36DI85HFD", data: [
     { date: "May 21 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "May 29 2025", qty: 11, price: 47.52, total: 522.72 },
-  ],
-  "SW1-3L30DI85HFD": [
+  ]},
+  { item: "SW1-3L30DI85HFD", data: [
     { date: "Dec 01 2025", qty: 1, price: 37.24, total: 37.24 },
-  ],
-  "SW1-3R30DI85HFD": [
+  ]},
+  { item: "SW1-3R30DI85HFD", data: [
     { date: "Dec 01 2025", qty: 1, price: 37.24, total: 37.24 },
-  ],
-  "SW1-4L30DI85HFD": [
+  ]},
+  { item: "SW1-4L30DI85HFD", data: [
     { date: "Jul 29 2025", qty: 4, price: 51.43, total: 205.72 },
     { date: "Dec 01 2025", qty: 2, price: 37.24, total: 74.48 },
-  ],
-  "SW1-4R30DI85HFD": [
+  ]},
+  { item: "SW1-4R30DI85HFD", data: [
     { date: "Jul 29 2025", qty: 3, price: 51.43, total: 154.29 },
     { date: "Dec 01 2025", qty: 2, price: 37.24, total: 74.48 },
-  ],
-  "SW1-4R36DI85HFD": [
+  ]},
+  { item: "SW1-4R36DI85HFD", data: [
     { date: "May 21 2025", qty: 4, price: 47.52, total: 190.08 },
-  ],
-  "SW1-5L30DI85HFD": [
+  ]},
+  { item: "SW1-5L30DI85HFD", data: [
     { date: "Jul 29 2025", qty: 7, price: 51.43, total: 360.01 },
     { date: "Dec 01 2025", qty: 3, price: 37.24, total: 111.72 },
-  ],
-  "SW1-5R30DI85HFD": [
+  ]},
+  { item: "SW1-5R30DI85HFD", data: [
     { date: "Jul 29 2025", qty: 4, price: 51.43, total: 205.72 },
     { date: "Dec 01 2025", qty: 3, price: 37.24, total: 111.72 },
-  ],
-  "SW1-7X482485HFD": [
+  ]},
+  { item: "SW1-7X482485HFD", data: [
     { date: "May 21 2025", qty: 1, price: 42.24, total: 42.24 },
     { date: "May 22 2025", qty: 2, price: 42.24, total: 84.48 },
     { date: "May 29 2025", qty: 8, price: 42.24, total: 337.92 },
-  ],
-  "SW1-8X182485HFD": [
+  ]},
+  { item: "SW1-8X182485HFD", data: [
     { date: "Jul 29 2025", qty: 18, price: 24.69, total: 444.42 },
     { date: "Dec 01 2025", qty: 14, price: 17.88, total: 250.32 },
-  ],
-  "SW1-8X243085HFD": [
+  ]},
+  { item: "SW1-8X243085HFD", data: [
     { date: "Jan 07 2025", qty: 140, price: 22.31, total: 3123.40 },
     { date: "May 21 2025", qty: 15, price: 26.40, total: 396.00 },
     { date: "May 22 2025", qty: 31, price: 26.40, total: 818.40 },
     { date: "May 29 2025", qty: 166, price: 26.40, total: 4382.40 },
-  ],
-  "SW11-230DI85FFD": [
+  ]},
+  { item: "SW11-230DI85FFD", data: [
     { date: "Jan 07 2025", qty: 100, price: 47.77, total: 4777.00 },
     { date: "Jan 30 2025", qty: 150, price: 40.00, total: 6000.00 },
     { date: "Feb 11 2025", qty: 25, price: 40.00, total: 1000.00 },
     { date: "Jul 16 2025", qty: 7, price: 49.65, total: 347.55 },
     { date: "Oct 15 2025", qty: 50, price: 45.00, total: 2250.00 },
-  ],
-  "SW11-230DI85HFD": [
+  ]},
+  { item: "SW11-230DI85HFD", data: [
     { date: "Feb 11 2025", qty: 25, price: 34.32, total: 858.00 },
     { date: "Dec 01 2025", qty: 4, price: 37.24, total: 148.96 },
-  ],
-  "SW11-236DI85FFD": [
+  ]},
+  { item: "SW11-236DI85FFD", data: [
     { date: "May 22 2025", qty: 2, price: 61.92, total: 123.84 },
     { date: "May 29 2025", qty: 4, price: 61.75, total: 247.00 },
     { date: "Jun 18 2025", qty: 1, price: 60.00, total: 60.00 },
     { date: "Jul 16 2025", qty: 4, price: 67.20, total: 268.80 },
-  ],
-  "SW11-330DI85HFD": [
+  ]},
+  { item: "SW11-330DI85HFD", data: [
     { date: "Jul 16 2025", qty: 6, price: 39.55, total: 237.30 },
     { date: "Jul 29 2025", qty: 2, price: 51.43, total: 102.86 },
-  ],
-  "SW11-336DI85HFD": [
+  ]},
+  { item: "SW11-336DI85HFD", data: [
     { date: "May 29 2025", qty: 1, price: 47.52, total: 47.52 },
     { date: "Dec 01 2025", qty: 8, price: 53.63, total: 429.04 },
-  ],
-  "SW111030DI85HFD": [
+  ]},
+  { item: "SW111030DI85HFD", data: [
     { date: "Jul 16 2025", qty: 2, price: 39.55, total: 79.10 },
-  ],
-  "SW12-236DI85HFD": [
+  ]},
+  { item: "SW12-236DI85HFD", data: [
     { date: "Jul 16 2025", qty: 8, price: 58.40, total: 467.20 },
-  ],
-  "SW13-118SQ85HFD": [
+  ]},
+  { item: "SW13-118SQ85HFD", data: [
     { date: "Jul 29 2025", qty: 17, price: 18.52, total: 314.84 },
-  ],
-  "SW13-124SQ85HFD": [
+  ]},
+  { item: "SW13-124SQ85HFD", data: [
     { date: "Jan 07 2025", qty: 63, price: 22.00, total: 1386.00 },
-  ],
-  "SW132018SQ85HFD": [
+  ]},
+  { item: "SW132018SQ85HFD", data: [
     { date: "Jun 18 2025", qty: 60, price: 13.00, total: 780.00 },
-  ],
-  "SW132518SQ85HFD": [
+  ]},
+  { item: "SW132518SQ85HFD", data: [
     { date: "May 22 2025", qty: 2, price: 11.88, total: 23.76 },
-  ],
-  "SW133018SQ85HFD": [
+  ]},
+  { item: "SW133018SQ85HFD", data: [
     { date: "May 29 2025", qty: 2, price: 11.88, total: 23.76 },
-  ],
-  "SW133518SQ85HFD": [
+  ]},
+  { item: "SW133518SQ85HFD", data: [
     { date: "Jul 16 2025", qty: 3, price: 13.00, total: 39.00 },
-  ],
-  "SW133524SQ85HFD": [
+  ]},
+  { item: "SW133524SQ85HFD", data: [
     { date: "May 21 2025", qty: 23, price: 21.12, total: 485.76 },
     { date: "May 29 2025", qty: 2, price: 21.12, total: 42.24 },
-  ],
-  "SW14-230DI85HFD": [
+  ]},
+  { item: "SW14-230DI85HFD", data: [
     { date: "Apr 03 2025", qty: 5, price: 28.88, total: 144.40 },
     { date: "Dec 01 2025", qty: 7, price: 37.24, total: 260.68 },
-  ],
-  "SW14-236DI85HFD": [
+  ]},
+  { item: "SW14-236DI85HFD", data: [
     { date: "May 29 2025", qty: 3, price: 47.52, total: 142.56 },
-  ],
-  "SW15-230DI85HPA": [
+  ]},
+  { item: "SW15-230DI85HPA", data: [
     { date: "Dec 01 2025", qty: 11, price: 37.24, total: 409.64 },
-  ],
-  "SW16-9241285FFD": [
+  ]},
+  { item: "SW16-9241285FFD", data: [
     { date: "Feb 11 2025", qty: 25, price: 14.40, total: 360.00 },
     { date: "Jul 16 2025", qty: 4, price: 16.00, total: 64.00 },
-  ],
-  "SW16-9241285HFD": [
+  ]},
+  { item: "SW16-9241285HFD", data: [
     { date: "Feb 11 2025", qty: 25, price: 10.26, total: 256.50 },
     { date: "Dec 01 2025", qty: 2, price: 11.92, total: 23.84 },
-  ],
-  "SW16L7241285FFD": [
+  ]},
+  { item: "SW16L7241285FFD", data: [
     { date: "Jan 07 2025", qty: 60, price: 13.00, total: 780.00 },
     { date: "Jan 30 2025", qty: 100, price: 14.40, total: 1440.00 },
     { date: "Feb 11 2025", qty: 10, price: 14.40, total: 144.00 },
@@ -1729,11 +1722,11 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 15 2025", qty: 50, price: 14.40, total: 720.00 },
     { date: "Oct 23 2025", qty: 50, price: 14.40, total: 720.00 },
     { date: "Dec 01 2025", qty: 2, price: 15.12, total: 30.24 },
-  ],
-  "SW16L7241285HFD": [
+  ]},
+  { item: "SW16L7241285HFD", data: [
     { date: "Feb 11 2025", qty: 10, price: 9.98, total: 99.80 },
-  ],
-  "SW16R7241285FFD": [
+  ]},
+  { item: "SW16R7241285FFD", data: [
     { date: "Jan 07 2025", qty: 30, price: 13.00, total: 390.00 },
     { date: "Jan 30 2025", qty: 75, price: 14.40, total: 1080.00 },
     { date: "Feb 11 2025", qty: 10, price: 14.40, total: 144.00 },
@@ -1742,46 +1735,46 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Aug 27 2025", qty: 146, price: 14.40, total: 2102.40 },
     { date: "Oct 15 2025", qty: 50, price: 14.40, total: 720.00 },
     { date: "Dec 01 2025", qty: 2, price: 15.12, total: 30.24 },
-  ],
-  "SW16R7241285HFD": [
+  ]},
+  { item: "SW16R7241285HFD", data: [
     { date: "Feb 11 2025", qty: 10, price: 9.98, total: 99.80 },
-  ],
-  "SW17-124DI85HFD": [
+  ]},
+  { item: "SW17-124DI85HFD", data: [
     { date: "Jun 18 2025", qty: 12, price: 23.00, total: 276.00 },
-  ],
-  "SW17-130DI85HFD": [
+  ]},
+  { item: "SW17-130DI85HFD", data: [
     { date: "Jun 18 2025", qty: 112, price: 33.00, total: 3696.00 },
-  ],
-  "SW2-2X36DI85HFD": [
+  ]},
+  { item: "SW2-2X36DI85HFD", data: [
     { date: "May 21 2025", qty: 4, price: 47.52, total: 190.08 },
     { date: "May 29 2025", qty: 20, price: 47.52, total: 950.40 },
-  ],
-  "SW2-6X30DI85HFD": [
+  ]},
+  { item: "SW2-6X30DI85HFD", data: [
     { date: "Jul 16 2025", qty: 4, price: 39.55, total: 158.20 },
-  ],
-  "SW3-1X36DI85HFD": [
+  ]},
+  { item: "SW3-1X36DI85HFD", data: [
     { date: "May 21 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "May 22 2025", qty: 2, price: 47.52, total: 95.04 },
     { date: "May 29 2025", qty: 10, price: 47.52, total: 475.20 },
     { date: "Jul 29 2025", qty: 1, price: 74.06, total: 74.06 },
     { date: "Dec 01 2025", qty: 8, price: 53.63, total: 429.04 },
-  ],
-  "SW3-3X36DI85HFD": [
+  ]},
+  { item: "SW3-3X36DI85HFD", data: [
     { date: "Jul 16 2025", qty: 1, price: 56.95, total: 56.95 },
-  ],
-  "SW3-3Y36DI85HFD": [
+  ]},
+  { item: "SW3-3Y36DI85HFD", data: [
     { date: "May 29 2025", qty: 3, price: 47.52, total: 142.56 },
-  ],
-  "SW7-3A241885HFD": [
+  ]},
+  { item: "SW7-3A241885HFD", data: [
     { date: "Jul 16 2025", qty: 2, price: 16.00, total: 32.00 },
-  ],
-  "SW8-1336DI85HFD": [
+  ]},
+  { item: "SW8-1336DI85HFD", data: [
     { date: "May 29 2025", qty: 2, price: 47.52, total: 95.04 },
-  ],
-  "SW9-2L30DI85HFD": [
+  ]},
+  { item: "SW9-2L30DI85HFD", data: [
     { date: "Feb 11 2025", qty: 2, price: 35.98, total: 71.96 },
-  ],
-  "UP-10": [
+  ]},
+  { item: "UP-10", data: [
     { date: "Mar 11 2025", qty: 25, price: 20.53, total: 513.25 },
     { date: "Mar 20 2025", qty: 20, price: 20.53, total: 410.60 },
     { date: "Apr 21 2025", qty: 50, price: 20.53, total: 1026.50 },
@@ -1791,19 +1784,19 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 09 2025", qty: 40, price: 20.53, total: 821.20 },
     { date: "Oct 17 2025", qty: 50, price: 20.53, total: 1026.50 },
     { date: "Nov 04 2025", qty: 50, price: 20.53, total: 1026.50 },
-  ],
-  "UP-10G": [
+  ]},
+  { item: "UP-10G", data: [
     { date: "Jan 28 2025", qty: 50, price: 29.00, total: 1450.00 },
     { date: "Oct 09 2025", qty: 50, price: 28.86, total: 1443.00 },
-  ],
-  "UP-12": [
+  ]},
+  { item: "UP-12", data: [
     { date: "Mar 11 2025", qty: 25, price: 24.63, total: 615.75 },
     { date: "May 27 2025", qty: 25, price: 24.63, total: 615.75 },
-  ],
-  "UP-14B": [
+  ]},
+  { item: "UP-14B", data: [
     { date: "Feb 20 2025", qty: 300, price: 34.00, total: 10200.00 },
-  ],
-  "UP-32": [
+  ]},
+  { item: "UP-32", data: [
     { date: "Mar 20 2025", qty: 50, price: 6.50, total: 325.00 },
     { date: "Apr 21 2025", qty: 50, price: 6.50, total: 325.00 },
     { date: "May 27 2025", qty: 150, price: 6.50, total: 975.00 },
@@ -1813,21 +1806,21 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 09 2025", qty: 50, price: 6.50, total: 325.00 },
     { date: "Oct 17 2025", qty: 50, price: 6.50, total: 325.00 },
     { date: "Nov 04 2025", qty: 50, price: 6.50, total: 325.00 },
-  ],
-  "UP-3G": [
+  ]},
+  { item: "UP-3G", data: [
     { date: "Jan 28 2025", qty: 50, price: 9.00, total: 450.00 },
     { date: "Oct 09 2025", qty: 100, price: 9.45, total: 945.00 },
-  ],
-  "UP-8": [
+  ]},
+  { item: "UP-8", data: [
     { date: "May 27 2025", qty: 25, price: 16.42, total: 410.50 },
     { date: "Aug 11 2025", qty: 50, price: 18.00, total: 900.00 },
     { date: "Oct 09 2025", qty: 50, price: 16.42, total: 821.00 },
-  ],
-  "UP-8G": [
+  ]},
+  { item: "UP-8G", data: [
     { date: "Sep 16 2025", qty: 6, price: 30.00, total: 180.00 },
     { date: "Oct 09 2025", qty: 50, price: 23.09, total: 1154.50 },
-  ],
-  "VCB1683": [
+  ]},
+  { item: "VCB1683", data: [
     { date: "Dec 20 2024", qty: 150, price: 0.72, total: 108.00 },
     { date: "Mar 04 2025", qty: 800, price: 0.90, total: 720.00 },
     { date: "Apr 21 2025", qty: 300, price: 0.72, total: 216.00 },
@@ -1838,5 +1831,5 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "Oct 21 2025", qty: 500, price: 0.72, total: 360.00 },
     { date: "Nov 18 2025", qty: 4500, price: 0.72, total: 3240.00 },
     { date: "Dec 02 2025", qty: 100, price: 0.00, total: 0.00 },
-  ],
-};
+  ]},
+];
