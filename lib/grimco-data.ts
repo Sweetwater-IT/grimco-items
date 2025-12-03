@@ -129,8 +129,6 @@ export const GRIMCO_ITEMS: GrimcoItem[] = [
   { id: "C4818TMOFO154AH", label: "C4818TMOFO154AH", description: "48\"X18\"-3MM-MAX-DGO-FO-1S-1 1/2-4-2P" },
   { id: "C4830TMHWT174AH", label: "C4830TMHWT174AH", description: "48\"X30\"-3MM-MAX-HIP-WT-1S-1 7/8-4-2P" },
   { id: "C6030TMHWT174AN", label: "C6030TMHWT174AN", description: "60\"X30\"-3MM-MAX-HIP-WT-1S-1 7/8-4-2P" },
-  { id: "CREDIT", label: "CREDIT", description: "B12UN85BARE53AI" },
-  { id: "CREDIT", label: "CREDIT", description: "EPSSCF170SE" },
   { id: "EPSSCF170SE", label: "EPSSCF170SE", description: "MRP EPSON F170 DESKTOP" },
   { id: "FASBA", label: "FASBA", description: "HARDWARE FOR BREAK AWAY POST" },
   { id: "HPCZ678A", label: "HPCZ678A", description: "HP 831 PRINTHEAD YELLOW/MAGENTA LATEX" },
@@ -858,14 +856,6 @@ export const PURCHASE_HISTORY: Record<string, Array<{date: string; qty: number; 
     { date: "May 22 2025", qty: 20, price: 40.00, total: 800.00 },
     { date: "Jun 18 2025", qty: 12, price: 56.84, total: 682.08 },
     { date: "Sep 11 2025", qty: -11, price: 56.84, total: -625.24 },
-  ],
-  "CREDIT": [
-    { date: "Dec 13 2024", qty: -230, price: 3.75, total: -862.50 },
-    { date: "Oct 03 2025", qty: -1, price: 350.00, total: -350.00 },
-  ],
-  "CREDIT": [
-    { date: "Dec 13 2024", qty: -230, price: 3.75, total: -862.50 },
-    { date: "Oct 03 2025", qty: -1, price: 350.00, total: -350.00 },
   ],
   "EPSSCF170SE": [
     { date: "Sep 19 2025", qty: 1, price: 395.00, total: 395.00 },
