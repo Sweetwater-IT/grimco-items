@@ -62,7 +62,7 @@ const generateTableData = () => {
       totalSpent,
       totalQty,
       avgPrice,
-      lastPurchased: lastPurch,
+      lastPurchased: lastPurchased,
     }
   })
 }
