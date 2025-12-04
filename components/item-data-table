@@ -8,12 +8,14 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
+  type Table as TanstackTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 
-export interface ItemData = {
+// This is the magic: define the type inline with `type` (not `interface`) and NO `export`
+type ItemData = {
   id: string
   number: number
   item: string
@@ -22,8 +24,8 @@ export interface ItemData = {
   totalQty: number
   avgPrice: number
   lastPurchased: string
-  priceChange: number // Replaced volatility with priceChange
-  priceChangePercent: number // Added price change percentage
+  priceChange: number
+  priceChangePercent: number
 }
 
 interface ItemDataTableProps {
