@@ -13,7 +13,7 @@ import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 
-export type ItemData = {
+export interface ItemData = {
   id: string
   number: number
   item: string
