@@ -234,7 +234,7 @@ export default function PriceChartPage() {
               <CardHeader className="space-y-3 pb-4 flex-shrink-0">
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div className="space-y-1 flex-1">
-                    <CardTitle className="text-2xl font-semibold tracking-tight">Grimco Item Dashboard</CardTitle>
+                    <CardTitle className="text-2xl font-semibold tracking-tight">ETC Grimco Item Dashboard</CardTitle>
                     <CardDescription className="text-sm text-muted-foreground">
                       Track monthly price trends and order quantities
                     </CardDescription>

@@ -2,20 +2,18 @@
 
 import * as React from "react"
 import {
-  ColumnDef,
-  SortingState,
+  type ColumnDef,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-  type Table as TanstackTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 
-// This is the magic: define the type inline with `type` (not `interface`) and NO `export`
-type ItemData = {
+export type ItemData = {
   id: string
   number: number
   item: string
@@ -24,8 +22,8 @@ type ItemData = {
   totalQty: number
   avgPrice: number
   lastPurchased: string
-  priceChange: number
-  priceChangePercent: number
+  priceChange: number // Replaced volatility with priceChange
+  priceChangePercent: number // Added price change percentage
 }
 
 interface ItemDataTableProps {
