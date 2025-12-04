@@ -1,7 +1,3 @@
-// src/data/grimco-data.ts
-// FINAL VERSION — uses arrays only (no duplicate key errors)
-// Generated 2025-12-03 14:00 — 324 items
-
 export type GrimcoItem = { id: string; label: string; description: string }
 
 export const GRIMCO_ITEMS: GrimcoItem[] = [
