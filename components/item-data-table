@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import {
-  type ColumnDef,
-  type SortingState,
+  ColumnDef,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
